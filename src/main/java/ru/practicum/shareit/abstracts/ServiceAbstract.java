@@ -12,7 +12,7 @@ public abstract class ServiceAbstract<T, K extends GeneralStorage<T>> implements
     public T getEntityById(long id) {
         Optional<T> optionalT = storage.getEntityById(id);
         return optionalT.orElseThrow(
-                () -> new NoSuchElementException(optionalT.getClass().getName() + " with id = " + id + " not found")
+                () -> new NoSuchElementException(optionalT.getClass().getSigners() + " with id = " + id + " not found")
         );
     }
 
@@ -52,7 +52,6 @@ public abstract class ServiceAbstract<T, K extends GeneralStorage<T>> implements
 
     @Override
     public boolean exists(long id) {
-        getEntityById(id);
-        return true;
+        return storage.getEntityById(id).isPresent();
     }
 }

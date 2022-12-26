@@ -7,4 +7,6 @@ import java.util.List;
 
 public interface ItemStorage extends GeneralStorage<Item> {
     List<Item> getItemsByOwnerId(long id );
+
+    List<Item> searchForItemsByText(String text);
 }

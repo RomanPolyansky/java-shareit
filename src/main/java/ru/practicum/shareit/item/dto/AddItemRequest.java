@@ -1,11 +1,9 @@
 package ru.practicum.shareit.item.dto;
 
 import lombok.Data;
-import lombok.NonNull;
-import org.springframework.format.annotation.NumberFormat;
 
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.PositiveOrZero;
+import javax.validation.constraints.NotNull;
 
 @Data
 public class AddItemRequest {
@@ -13,6 +11,6 @@ public class AddItemRequest {
     String name;
     @NotBlank(message = "'description' should not be blank")
     String description;
-    @NotBlank
-    boolean available;
+    @NotNull(message = "'available' should not be null")
+    Boolean available;
 }

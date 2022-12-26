@@ -14,7 +14,7 @@ public class UserStorageInMemory implements UserStorage {
 
     @Override
     public Optional<User> getEntityById(long id) {
-        return Optional.of(userMap.get(id));
+        return Optional.ofNullable(userMap.get(id));
     }
 
     @Override

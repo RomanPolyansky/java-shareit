@@ -2,7 +2,6 @@ package ru.practicum.shareit.item;
 
 import org.springframework.stereotype.Component;
 import ru.practicum.shareit.item.model.Item;
-import ru.practicum.shareit.user.model.User;
 
 import java.util.*;
 
@@ -14,7 +13,7 @@ public class ItemStorageInMemory implements ItemStorage {
 
     @Override
     public Optional<Item> getEntityById(long id) {
-        return Optional.of(itemMap.get(id));
+        return Optional.ofNullable(itemMap.get(id));
     }
 
     @Override
@@ -24,7 +23,8 @@ public class ItemStorageInMemory implements ItemStorage {
 
     @Override
     public Item addEntity(Item entity) {
-        itemMap.put(currentId++, entity);
+        entity.setId(currentId++);
+        itemMap.put(entity.getId(), entity);
         return entity;
     }
 
@@ -33,6 +33,7 @@ public class ItemStorageInMemory implements ItemStorage {
         Item item = itemMap.get(entity.getId());
         if (entity.getDescription() != null) item.setDescription(entity.getDescription());
         if (entity.getName() != null) item.setName(entity.getName());
+        if (entity.getIsAvailable() != null) item.setIsAvailable(entity.getIsAvailable());
         return item;
     }
 
@@ -50,5 +51,19 @@ public class ItemStorageInMemory implements ItemStorage {
             }
         }
         return ownerItems;
+    }
+
+    @Override
+    public List<Item> searchForItemsByText(String text) {
+        List<Item> resultList = new ArrayList<>();
+        if (text.length() == 0) return Collections.emptyList();
+        for (Item item : itemMap.values()) {
+            if (!item.getIsAvailable()) continue;
+            if (item.getName().toLowerCase().contains(text.toLowerCase()) ||
+                    item.getDescription().toLowerCase().contains(text.toLowerCase()) ) {
+                resultList.add(item);
+            }
+        }
+        return resultList;
     }
 }

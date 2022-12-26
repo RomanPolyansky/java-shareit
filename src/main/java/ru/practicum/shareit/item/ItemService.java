@@ -8,4 +8,6 @@ import java.util.List;
 interface ItemService extends GeneralService<Item> {
 
     List<Item> getItemsByOwnerId(long id);
+
+    List<Item> searchForItemsByText(String text);
 }

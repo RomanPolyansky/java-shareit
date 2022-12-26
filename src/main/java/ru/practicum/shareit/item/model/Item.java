@@ -12,7 +12,7 @@ public class Item {
     long ownerId;
     String name;
     String description;
-    boolean isAvailable;
+    Boolean isAvailable;
 
     public Item() {
     }
