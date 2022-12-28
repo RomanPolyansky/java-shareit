@@ -17,7 +17,7 @@ import java.util.stream.Collectors;
 @RequestMapping(path = "/users")
 public class UserController {
 
-    UserService service;
+    final UserService service;
 
     @Autowired
     public UserController(UserService userService) {
@@ -27,11 +27,13 @@ public class UserController {
     @GetMapping("/{id}")
     public UserResponse getUserById(@PathVariable("id") long id) {
         User user = service.getEntityById(id);
+        log.info("Received GET id {}", id);
         return UserMapper.mapUserToResponse(user);
     }
 
     @GetMapping()
     public List<UserResponse> getAllUsers() {
+        log.info("Received GET all");
         return service.getAll().stream()
                 .map(UserMapper::mapUserToResponse)
                 .collect(Collectors.toList());
@@ -40,6 +42,7 @@ public class UserController {
     @PostMapping
     public UserResponse addUser(@RequestBody @Valid AddUserRequest userDto) {
         User user = UserMapper.mapToUser(userDto);
+        log.info("Received POST AddUserRequest of AddUserRequest {}", userDto);
         return UserMapper.mapUserToResponse(service.addEntity(user));
     }
 
@@ -49,11 +52,13 @@ public class UserController {
             @RequestBody @Valid UpdateUserRequest userDto) {
         User user = UserMapper.mapToUser(userDto);
         user.setId(id);
+        log.info("Received PATCH UpdateUserRequest of UpdateUserRequest {} at {}", userDto, id);
         return UserMapper.mapUserToResponse(service.changeEntity(user));
     }
 
     @DeleteMapping("/{id}")
     public void deleteUser(@PathVariable("id") long id) {
+        log.info("Received DELETE of {}", id);
         service.deleteEntity(id);
     }
 }

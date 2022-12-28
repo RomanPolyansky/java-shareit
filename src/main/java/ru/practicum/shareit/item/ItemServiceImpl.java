@@ -13,7 +13,7 @@ import java.util.List;
 @Service
 public class ItemServiceImpl extends ServiceAbstract<Item, ItemStorage> implements ItemService {
 
-    UserStorage userStorage;
+    final UserStorage userStorage;
 
     @Autowired
     public ItemServiceImpl(ItemStorage itemStorage, UserStorage userStorage) {

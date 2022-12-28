@@ -12,7 +12,7 @@ public abstract class ServiceAbstract<T, K extends GeneralStorage<T>> implements
     public T getEntityById(long id) {
         Optional<T> optionalT = storage.getEntityById(id);
         return optionalT.orElseThrow(
-                () -> new NoSuchElementException(optionalT.getClass().getSigners() + " with id = " + id + " not found")
+                () -> new NoSuchElementException("entity is not found")
         );
     }
 

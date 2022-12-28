@@ -5,8 +5,6 @@ import org.springframework.stereotype.Service;
 import ru.practicum.shareit.abstracts.ServiceAbstract;
 import ru.practicum.shareit.user.model.User;
 
-import java.util.List;
-
 @Service
 public class UserServiceImpl extends ServiceAbstract<User, UserStorage> implements UserService {
 
