@@ -1,7 +1,7 @@
 package ru.practicum.shareit.user;
 
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import ru.practicum.shareit.user.model.AddUserRequest;
 import ru.practicum.shareit.user.model.User;
@@ -15,18 +15,14 @@ import java.util.stream.Collectors;
 @Slf4j
 @RestController
 @RequestMapping(path = "/users")
+@RequiredArgsConstructor
 public class UserController {
 
     final UserService service;
 
-    @Autowired
-    public UserController(UserService userService) {
-        this.service = userService;
-    }
-
     @GetMapping("/{id}")
     public UserResponse getUserById(@PathVariable("id") long id) {
-        User user = service.getEntityById(id);
+        User user = service.getUserById(id);
         log.info("Received GET id {}", id);
         return UserMapper.mapUserToResponse(user);
     }
@@ -43,7 +39,7 @@ public class UserController {
     public UserResponse addUser(@RequestBody @Valid AddUserRequest userDto) {
         User user = UserMapper.mapToUser(userDto);
         log.info("Received POST AddUserRequest of AddUserRequest {}", userDto);
-        return UserMapper.mapUserToResponse(service.addEntity(user));
+        return UserMapper.mapUserToResponse(service.addUser(user));
     }
 
     @PatchMapping("/{id}")
@@ -53,12 +49,12 @@ public class UserController {
         User user = UserMapper.mapToUser(userDto);
         user.setId(id);
         log.info("Received PATCH UpdateUserRequest of UpdateUserRequest {} at {}", userDto, id);
-        return UserMapper.mapUserToResponse(service.changeEntity(user));
+        return UserMapper.mapUserToResponse(service.changeUser(user));
     }
 
     @DeleteMapping("/{id}")
     public void deleteUser(@PathVariable("id") long id) {
         log.info("Received DELETE of {}", id);
-        service.deleteEntity(id);
+        service.deleteUser(id);
     }
 }

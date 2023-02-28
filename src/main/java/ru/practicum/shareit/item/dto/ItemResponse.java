@@ -7,5 +7,5 @@ public class ItemResponse {
     long id;
     String name;
     String description;
-    boolean isAvailable;
+    Boolean available;
 }

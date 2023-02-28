@@ -1,7 +1,7 @@
 package ru.practicum.shareit.item;
 
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import ru.practicum.shareit.item.dto.AddItemRequest;
 import ru.practicum.shareit.item.dto.ItemMapper;
@@ -17,14 +17,10 @@ import java.util.stream.Collectors;
 @Slf4j
 @RestController
 @RequestMapping("/items")
+@RequiredArgsConstructor
 public class ItemController {
 
     private final ItemService service;
-
-    @Autowired
-    public ItemController(ItemService service) {
-        this.service = service;
-    }
 
     @PostMapping
     public ItemResponse addItem(@RequestBody @Valid AddItemRequest itemDto,
@@ -32,7 +28,7 @@ public class ItemController {
         Item item = ItemMapper.mapToItem(itemDto);
         item.setOwnerId(ownerId);
         log.info("Received POST AddItemRequest {} from {}", itemDto, ownerId);
-        return ItemMapper.mapItemToResponse(service.addEntity(item));
+        return ItemMapper.mapItemToResponse(service.addItem(item));
     }
 
     @PatchMapping("/{id}")
@@ -44,7 +40,7 @@ public class ItemController {
         item.setId(id);
         item.setOwnerId(ownerId);
         log.info("Received PATCH UpdateItemRequest {} from {}", itemDto, ownerId);
-        return ItemMapper.mapItemToResponse(service.changeEntity(item));
+        return ItemMapper.mapItemToResponse(service.changeItem(item));
     }
 
     @GetMapping("/{id}")
@@ -52,7 +48,7 @@ public class ItemController {
             @PathVariable("id") long id,
             @NotBlank @RequestHeader("X-Sharer-User-Id") long ownerId) {
         log.info("Received GET id {} from {}", id, ownerId);
-        return ItemMapper.mapItemToResponse(service.getEntityById(id));
+        return ItemMapper.mapItemToResponse(service.getItemById(id));
     }
 
     @GetMapping()

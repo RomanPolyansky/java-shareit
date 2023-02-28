@@ -7,7 +7,7 @@ public class ItemMapper {
     public static Item mapToItem(AddItemRequest dto) {
         Item item = new Item();
         item.setName(dto.getName());
-        item.setIsAvailable(dto.getAvailable());
+        item.setAvailable(dto.getAvailable());
         item.setDescription(dto.getDescription());
         return item;
     }
@@ -15,7 +15,7 @@ public class ItemMapper {
     public static Item mapToItem(UpdateItemRequest dto) {
         Item item = new Item();
         item.setName(dto.getName());
-        item.setIsAvailable(dto.getAvailable());
+        item.setAvailable(dto.getAvailable());
         item.setDescription(dto.getDescription());
         return item;
     }
@@ -25,7 +25,7 @@ public class ItemMapper {
         itemDto.setId(item.getId());
         itemDto.setName(item.getName());
         itemDto.setDescription(item.getDescription());
-        itemDto.setAvailable(item.getIsAvailable());
+        itemDto.setAvailable(item.getAvailable());
         return itemDto;
     }
 }

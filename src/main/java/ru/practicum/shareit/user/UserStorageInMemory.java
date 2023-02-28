@@ -13,7 +13,7 @@ public class UserStorageInMemory implements UserStorage {
     private long currentId = 1;
 
     @Override
-    public Optional<User> getEntityById(long id) {
+    public Optional<User> getUserById(long id) {
         return Optional.ofNullable(userMap.get(id));
     }
 
@@ -23,22 +23,22 @@ public class UserStorageInMemory implements UserStorage {
     }
 
     @Override
-    public User addEntity(User entity) {
-        entity.setId(currentId++);
-        userMap.put(entity.getId(), entity);
-        return userMap.get(entity.getId());
+    public User addUser(User user) {
+        user.setId(currentId++);
+        userMap.put(user.getId(), user);
+        return userMap.get(user.getId());
     }
 
     @Override
-    public User changeEntity(User entity) {
-        User user = userMap.get(entity.getId());
-        if (entity.getEmail() != null) user.setEmail(entity.getEmail());
-        if (entity.getName() != null) user.setName(entity.getName());
+    public User changeUser(User receivedUser) {
+        User user = userMap.get(receivedUser.getId());
+        if (receivedUser.getEmail() != null) user.setEmail(receivedUser.getEmail());
+        if (receivedUser.getName() != null) user.setName(receivedUser.getName());
         return user;
     }
 
     @Override
-    public void deleteEntity(long id) {
+    public void deleteUser(long id) {
         userMap.remove(id);
     }
 }
