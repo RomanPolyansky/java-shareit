@@ -44,14 +44,11 @@ public class ItemServiceImpl implements ItemService {
     }
 
     @Override
-    public boolean exists(Item item) {
-        return true;
-    }
-
     public boolean exists(long id) {
         return storage.getItemById(id).isPresent();
     }
 
+    @Override
     public Item changeItem(Item item) {
         checkOwnership(item);
         return storage.changeItem(item);

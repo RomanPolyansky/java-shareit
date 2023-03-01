@@ -2,14 +2,13 @@ package ru.practicum.shareit.item;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-import ru.practicum.shareit.item.dto.AddItemRequest;
-import ru.practicum.shareit.item.dto.ItemMapper;
-import ru.practicum.shareit.item.dto.ItemResponse;
-import ru.practicum.shareit.item.dto.UpdateItemRequest;
+import ru.practicum.shareit.item.dto.*;
+import ru.practicum.shareit.item.dto.constraints.Create;
+import ru.practicum.shareit.item.dto.constraints.Update;
 import ru.practicum.shareit.item.model.Item;
 
-import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -23,28 +22,28 @@ public class ItemController {
     private final ItemService service;
 
     @PostMapping
-    public ItemResponse addItem(@RequestBody @Valid AddItemRequest itemDto,
-                                @RequestHeader("X-Sharer-User-Id") long ownerId) {
+    public ItemDto addItem(@RequestBody @Validated(Create.class) ItemDto itemDto,
+                           @RequestHeader("X-Sharer-User-Id") long ownerId) {
         Item item = ItemMapper.mapToItem(itemDto);
         item.setOwnerId(ownerId);
-        log.info("Received POST AddItemRequest {} from {}", itemDto, ownerId);
+        log.info("Received POST ItemDto {} from {}", itemDto, ownerId);
         return ItemMapper.mapItemToResponse(service.addItem(item));
     }
 
     @PatchMapping("/{id}")
-    public ItemResponse updateItem(
+    public ItemDto updateItem(
             @PathVariable("id") long id,
-            @RequestBody @Valid UpdateItemRequest itemDto,
+            @RequestBody @Validated(Update.class) ItemDto itemDto,
             @NotBlank @RequestHeader("X-Sharer-User-Id") long ownerId) {
         Item item = ItemMapper.mapToItem(itemDto);
         item.setId(id);
         item.setOwnerId(ownerId);
-        log.info("Received PATCH UpdateItemRequest {} from {}", itemDto, ownerId);
+        log.info("Received PATCH ItemDto {} from {}", itemDto, ownerId);
         return ItemMapper.mapItemToResponse(service.changeItem(item));
     }
 
     @GetMapping("/{id}")
-    public ItemResponse getItem(
+    public ItemDto getItem(
             @PathVariable("id") long id,
             @NotBlank @RequestHeader("X-Sharer-User-Id") long ownerId) {
         log.info("Received GET id {} from {}", id, ownerId);
@@ -52,7 +51,7 @@ public class ItemController {
     }
 
     @GetMapping()
-    public List<ItemResponse> getAllItemsOfOwner(
+    public List<ItemDto> getAllItemsOfOwner(
             @NotBlank @RequestHeader("X-Sharer-User-Id") long ownerId) {
         log.info("Received GET id all from {}", ownerId);
         return service.getItemsByOwnerId(ownerId).stream()
@@ -61,7 +60,7 @@ public class ItemController {
     }
 
     @GetMapping("/search")
-    public List<ItemResponse> searchByName(
+    public List<ItemDto> searchByName(
             @RequestParam (name = "text") String text,
             @RequestHeader("X-Sharer-User-Id") @NotBlank long ownerId) {
         log.info("Received GET search of {} from {}", text, ownerId);

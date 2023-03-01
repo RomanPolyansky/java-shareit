@@ -13,7 +13,6 @@ interface ItemService {
     Item changeItem(Item item);
     void deleteItem(long id);
     boolean isValidItem(Item item);
-    boolean exists(Item item);
     boolean exists(long id);
     void checkOwnership(Item item);
 }
