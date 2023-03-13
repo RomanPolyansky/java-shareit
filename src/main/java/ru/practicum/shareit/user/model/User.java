@@ -1,9 +1,6 @@
 package ru.practicum.shareit.user.model;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import org.hibernate.annotations.Comment;
+import lombok.*;
 
 import javax.persistence.*;
 
@@ -16,6 +13,9 @@ import javax.persistence.*;
 @Data
 @Builder
 @AllArgsConstructor
+@Getter
+@Setter
+@ToString
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -28,5 +28,11 @@ public class User {
     private String email;
 
     public User() {
+    }
+
+    public User merge(User other) {
+        if (other.name != null) name = other.name;
+        if (other.email != null) email = other.email;
+        return this;
     }
 }

@@ -30,4 +30,11 @@ public class Item {
 
     public Item() {
     }
+
+    public Item merge(Item other) {
+        if (other.name != null) name = other.name;
+        if (other.description != null) description = other.description;
+        if (other.available != null) available = other.available;
+        return this;
+    }
 }

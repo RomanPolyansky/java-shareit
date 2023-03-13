@@ -1,26 +1,30 @@
 package ru.practicum.shareit.item;
 
-import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 import ru.practicum.shareit.item.model.Item;
-import ru.practicum.shareit.user.UserStorage;
+import ru.practicum.shareit.user.UserRepository;
 
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
 
 @Service
-@RequiredArgsConstructor
 public class ItemServiceImpl implements ItemService {
+    private final UserRepository userRepository;
+    private final ItemRepository repository;
 
-    private final UserStorage userStorage;
-    private final ItemStorage storage;
+    @Autowired
+    public ItemServiceImpl(UserRepository userRepository, ItemRepository repository) {
+        this.userRepository = userRepository;
+        this.repository = repository;
+    }
 
     @Override
     public Item getItemById(long id) {
-        Optional<Item> optionalItem = storage.getItemById(id);
+        Optional<Item> optionalItem = repository.findById(id);
         return optionalItem.orElseThrow(
                 () -> new NoSuchElementException("Item is not found")
         );
@@ -28,30 +32,26 @@ public class ItemServiceImpl implements ItemService {
 
     @Override
     public List<Item> getAll() {
-        return storage.getAll();
+        return repository.findAll();
     }
 
     @Override
     public Item addItem(Item item) {
         if (!isValidItem(item)) throw new NoSuchElementException("item to add is not valid");
-        return storage.addItem(item);
+        return repository.save(item);
     }
 
     @Override
     public void deleteItem(long id) {
         if (!exists(id)) throw new NoSuchElementException("item to delete is not found");
-        storage.deleteItem(id);
-    }
-
-    @Override
-    public boolean exists(long id) {
-        return storage.getItemById(id).isPresent();
+        repository.deleteById(id);
     }
 
     @Override
     public Item changeItem(Item item) {
         checkOwnership(item);
-        return storage.changeItem(item);
+        Item mergedItem = repository.getById(item.getId()).merge(item);
+        return repository.save(mergedItem);
     }
 
     @Override
@@ -61,13 +61,18 @@ public class ItemServiceImpl implements ItemService {
     }
 
     @Override
+    public boolean exists(long id) {
+        return repository.findById(id).isPresent();
+    }
+
+    @Override
     public void checkOwnership(Item item) {
-        if (userStorage.getUserById(item.getOwnerId()).isEmpty()) {
+        if (userRepository.findById(item.getOwnerId()).isEmpty()) {
             throw new ResponseStatusException(
                     HttpStatus.NOT_FOUND, "such user does not exist"
             );
         }
-        if (exists(item.getId()) && item.getOwnerId() != getItemById(item.getId()).getOwnerId()){
+        if (exists(item.getId()) && item.getOwnerId() != getItemById(item.getId()).getOwnerId()) {
             throw new ResponseStatusException(
                     HttpStatus.NOT_FOUND, "User is not owner of this item"
             );
@@ -76,11 +81,11 @@ public class ItemServiceImpl implements ItemService {
 
     @Override
     public List<Item> getItemsByOwnerId(long id) {
-        return storage.getItemsByOwnerId(id);
+        return repository.getItemsByOwnerId(id);
     }
 
     @Override
     public List<Item> searchForItemsByText(String text) {
-        return storage.searchForItemsByText(text);
+        return repository.searchForItemsByText(text);
     }
 }
