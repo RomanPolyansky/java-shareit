@@ -1,5 +1,6 @@
 package ru.practicum.shareit.item;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -12,15 +13,10 @@ import java.util.NoSuchElementException;
 import java.util.Optional;
 
 @Service
+@RequiredArgsConstructor
 public class ItemServiceImpl implements ItemService {
     private final UserRepository userRepository;
     private final ItemRepository repository;
-
-    @Autowired
-    public ItemServiceImpl(UserRepository userRepository, ItemRepository repository) {
-        this.userRepository = userRepository;
-        this.repository = repository;
-    }
 
     @Override
     public Item getItemById(long id) {
