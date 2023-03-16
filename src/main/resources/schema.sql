@@ -28,14 +28,6 @@ CREATE TABLE IF NOT EXISTS `bookings`
     PRIMARY KEY (`id`)
 );
 
-CREATE TABLE IF NOT EXISTS `requests`
-(
-    `id`           INT          NOT NULL AUTO_INCREMENT,
-    `description`  varchar(255) NOT NULL,
-    `requestor_id` INT          NOT NULL,
-    PRIMARY KEY (`id`)
-);
-
 CREATE TABLE IF NOT EXISTS `comments`
 (
     `id`        INT          NOT NULL AUTO_INCREMENT,
@@ -48,17 +40,11 @@ CREATE TABLE IF NOT EXISTS `comments`
 ALTER TABLE `items`
     ADD CONSTRAINT IF NOT EXISTS `items_fk0` FOREIGN KEY  (`owner_id`) REFERENCES `users` (`id`);
 
-ALTER TABLE `items`
-    ADD CONSTRAINT IF NOT EXISTS `items_fk1` FOREIGN KEY (`request_id`) REFERENCES `requests` (`id`);
-
 ALTER TABLE `bookings`
     ADD CONSTRAINT IF NOT EXISTS `bookings_fk0` FOREIGN KEY (`booker_id`) REFERENCES `users` (`id`);
 
 ALTER TABLE `bookings`
     ADD CONSTRAINT IF NOT EXISTS `bookings_fk1` FOREIGN KEY (`item_id`) REFERENCES `items` (`id`);
-
-ALTER TABLE `requests`
-    ADD CONSTRAINT IF NOT EXISTS `requests_fk0` FOREIGN KEY (`requestor_id`) REFERENCES `users` (`id`);
 
 ALTER TABLE `comments`
     ADD CONSTRAINT IF NOT EXISTS `comments_fk0` FOREIGN KEY (`author_id`) REFERENCES `users` (`id`);

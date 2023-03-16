@@ -5,9 +5,11 @@ import java.util.List;
 public interface BookingService {
     Booking addBooking(Booking booking);
 
-    Booking replyBooking(Booking booking, String isApproved);
+    Booking replyBooking(long bookingId, String isApproved, long requesterId);
 
-    Booking getBookingById(long bookingId, long ownerId);
+    Booking getBookingById(long bookingId, long requesterId);
 
-    List<Booking> getBookingsOfOwner(long ownerId, long state);
+    List<Booking> getAllBookingsOfUser(long bookerId, String state);
+
+    List<Booking> getAllBookingsOfUserItems(long ownerId, String state);
 }

@@ -40,4 +40,22 @@ public class Booking {
 
     public Booking() {
     }
+
+    public Booking merge(Booking other) {
+        if (other.startDate != null) startDate = other.startDate;
+        if (other.endDate != null) endDate = other.endDate;
+        if (other.status != null) status = other.status;
+        return this;
+    }
+
+    public void recalculateStatus() {
+        Instant now = Instant.now();
+        if (now.isBefore(startDate)) {
+            status = Status.FUTURE;
+        } else if (now.isAfter(endDate)) {
+            status = Status.PAST;
+        } else {
+            status = Status.CURRENT;
+        }
+    }
 }

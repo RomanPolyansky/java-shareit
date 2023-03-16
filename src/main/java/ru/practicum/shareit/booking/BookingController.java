@@ -32,41 +32,37 @@ public class BookingController {
     }
 
     @PatchMapping
-    public BookingDto replyBooking(@NotBlank @RequestBody @Validated() BookingDto bookingDto,
-                                   @RequestParam (name = "isApproved") String isApproved,
-                                   @NotBlank @PathVariable("bookingId") long id,
-                                   @NotBlank @RequestHeader("X-Sharer-User-Id") long ownerId) {
-        Booking booking = BookingMapper.mapToBooking(bookingDto);
-        booking.setId(id);
-        booking.setBookerId(ownerId);
-        log.info("Received Patch reply BookingDto {} from {}", bookingDto, ownerId);
-        return BookingMapper.mapBookingToResponse(service.replyBooking(booking, isApproved));
+    public BookingDto replyBooking(@RequestParam (name = "isApproved") String isApproved,
+                                   @NotBlank @PathVariable("bookingId") long bookingId,
+                                   @NotBlank @RequestHeader("X-Sharer-User-Id") long requesterId) {
+        log.info("Received Patch reply BookingDto {} from {}", requesterId);
+        return BookingMapper.mapBookingToResponse(service.replyBooking(bookingId, isApproved, requesterId));
     }
 
     @GetMapping("/{id}")
     public BookingDto getBooking(
             @PathVariable("bookingId") long bookingId,
-            @NotBlank @RequestHeader("X-Sharer-User-Id") long ownerId) {
-        log.info("Received GET booking {} from {}", bookingId, ownerId);
-        return BookingMapper.mapBookingToResponse(service.getBookingById(bookingId, ownerId));
+            @NotBlank @RequestHeader("X-Sharer-User-Id") long requesterId) {
+        log.info("Received GET booking {} from {}", bookingId, requesterId);
+        return BookingMapper.mapBookingToResponse(service.getBookingById(bookingId, requesterId));
     }
 
     @GetMapping()
-    public List<BookingDto> getAllBookingsOfCurrent(
-            @NotBlank @RequestHeader("X-Sharer-User-Id") long ownerId,
-            @RequestParam(name = "state", required = false, defaultValue = "ALL") long state) {
-        log.info("Received GET all from ownerId {} with state {}", ownerId, state);
-        return service.getBookingsOfOwner(ownerId, state).stream()
+    public List<BookingDto> getAllBookingsOfUser(
+            @NotBlank @RequestHeader("X-Sharer-User-Id") long bookerId,
+            @RequestParam(name = "state", required = false, defaultValue = "ALL") String state) {
+        log.info("Received GET all from bookerId {} with state {}", bookerId, state);
+        return service.getAllBookingsOfUser(bookerId, state).stream()
                 .map(BookingMapper::mapBookingToResponse)
                 .collect(Collectors.toList());
     }
 
     @GetMapping("/owner")
-    public List<BookingDto> getAllBookingsOfOwner(
+    public List<BookingDto> getAllBookingsOfUserItems(
             @NotBlank @RequestHeader("X-Sharer-User-Id") long ownerId,
-            @RequestParam(name = "state", required = false, defaultValue = "ALL") long state) {
+            @RequestParam(name = "state", required = false, defaultValue = "ALL") String state) {
         log.info("Received GET all from ownerId {} with state {}", ownerId, state);
-        return service.getBookingsOfOwner(ownerId, state).stream()
+        return service.getAllBookingsOfUserItems(ownerId, state).stream()
                 .map(BookingMapper::mapBookingToResponse)
                 .collect(Collectors.toList());
     }
