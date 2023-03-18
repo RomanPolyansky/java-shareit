@@ -1,13 +1,16 @@
 package ru.practicum.shareit.booking;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import ru.practicum.shareit.booking.model.Booking;
 import ru.practicum.shareit.item.ItemRepository;
 import ru.practicum.shareit.item.model.Item;
 
 import java.util.List;
 import java.util.NoSuchElementException;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class BookingServiceImpl implements BookingService {
@@ -18,6 +21,7 @@ public class BookingServiceImpl implements BookingService {
 
     @Override
     public Booking addBooking(Booking booking) {
+        log.info(booking.toString());
         if (!isValidBooking(booking)) throw new NoSuchElementException("booking to add is not valid");
         return repository.save(booking);
     }

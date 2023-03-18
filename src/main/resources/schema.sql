@@ -13,8 +13,8 @@ CREATE TABLE IF NOT EXISTS `items`
     `description`  varchar(255) NOT NULL,
     `is_available` BOOLEAN      NOT NULL,
     `owner_id`     INT          NOT NULL,
-    `request_id`   INT          NOT NULL,
-    PRIMARY KEY (`id`)
+    PRIMARY KEY (`id`),
+    FOREIGN KEY  (`owner_id`) REFERENCES `users` (`id`)
 );
 
 CREATE TABLE IF NOT EXISTS `bookings`
@@ -25,7 +25,9 @@ CREATE TABLE IF NOT EXISTS `bookings`
     `booker_id`  INT          NOT NULL,
     `item_id`    INT          NOT NULL,
     `status`     VARCHAR(255) NOT NULL,
-    PRIMARY KEY (`id`)
+    PRIMARY KEY (`id`),
+    FOREIGN KEY (`booker_id`) REFERENCES `users` (`id`),
+    FOREIGN KEY (`item_id`) REFERENCES `items` (`id`)
 );
 
 CREATE TABLE IF NOT EXISTS `comments`
@@ -34,25 +36,9 @@ CREATE TABLE IF NOT EXISTS `comments`
     `text`      varchar(255) NOT NULL,
     `author_id` INT          NOT NULL,
     `item_id`   INT          NOT NULL,
-    PRIMARY KEY (`id`)
+    PRIMARY KEY (`id`),
+    FOREIGN KEY (`author_id`) REFERENCES `users` (`id`),
+    FOREIGN KEY (`item_id`) REFERENCES `items` (`id`)
 );
-
-ALTER TABLE `items`
-    ADD CONSTRAINT IF NOT EXISTS `items_fk0` FOREIGN KEY  (`owner_id`) REFERENCES `users` (`id`);
-
-ALTER TABLE `bookings`
-    ADD CONSTRAINT IF NOT EXISTS `bookings_fk0` FOREIGN KEY (`booker_id`) REFERENCES `users` (`id`);
-
-ALTER TABLE `bookings`
-    ADD CONSTRAINT IF NOT EXISTS `bookings_fk1` FOREIGN KEY (`item_id`) REFERENCES `items` (`id`);
-
-ALTER TABLE `comments`
-    ADD CONSTRAINT IF NOT EXISTS `comments_fk0` FOREIGN KEY (`author_id`) REFERENCES `users` (`id`);
-
-ALTER TABLE `comments`
-    ADD CONSTRAINT IF NOT EXISTS `comments_fk1` FOREIGN KEY (`item_id`) REFERENCES `items` (`id`);
-
-
-
 
 

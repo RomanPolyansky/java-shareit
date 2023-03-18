@@ -1,11 +1,15 @@
-package ru.practicum.shareit.booking;
+package ru.practicum.shareit.booking.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import ru.practicum.shareit.booking.Status;
+import ru.practicum.shareit.item.model.Item;
+import ru.practicum.shareit.user.model.User;
 
 import javax.persistence.*;
-import java.time.Instant;
+import java.time.LocalDateTime;
+import java.util.Set;
 
 /**
  * TODO Sprint add-bookings.
@@ -23,10 +27,10 @@ public class Booking {
     private long id;
 
     @Column(name = "start_date")
-    private Instant startDate;
+    private LocalDateTime startDate;
 
     @Column(name = "end_date")
-    private Instant endDate;
+    private LocalDateTime  endDate;
 
     @Column(name = "booker_id")
     private long bookerId;
@@ -49,7 +53,7 @@ public class Booking {
     }
 
     public void recalculateStatus() {
-        Instant now = Instant.now();
+        LocalDateTime now = LocalDateTime.now();
         if (now.isBefore(startDate)) {
             status = Status.FUTURE;
         } else if (now.isAfter(endDate)) {

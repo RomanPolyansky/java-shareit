@@ -5,7 +5,10 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import ru.practicum.shareit.booking.dto.BookingDto;
+import ru.practicum.shareit.booking.dto.BookingDtoResponse;
 import ru.practicum.shareit.booking.dto.BookingMapper;
+import ru.practicum.shareit.booking.model.Booking;
+import ru.practicum.shareit.user.model.User;
 
 import javax.validation.constraints.NotBlank;
 import java.util.List;
@@ -22,17 +25,17 @@ public class BookingController {
     private final BookingService service;
 
     @PostMapping
-    public BookingDto addBooking(@RequestBody @Validated(Create.class) BookingDto bookingDto,
-                                 @RequestHeader("X-Sharer-User-Id") long ownerId)  {
+    public BookingDtoResponse addBooking(@RequestBody @Validated(Create.class) BookingDto bookingDto,
+                                         @RequestHeader("X-Sharer-User-Id") long bookerId)  {
         Booking booking = BookingMapper.mapToBooking(bookingDto);
         booking.setStatus(Status.WAITING);
-        booking.setBookerId(ownerId);
-        log.info("Received POST BookingDto {} from {}", bookingDto, ownerId);
+        booking.setBookerId(bookerId);
+        log.info("Received POST BookingDto {} from {}", bookingDto, bookerId);
         return BookingMapper.mapBookingToResponse(service.addBooking(booking));
     }
 
     @PatchMapping
-    public BookingDto replyBooking(@RequestParam (name = "isApproved") String isApproved,
+    public BookingDtoResponse replyBooking(@RequestParam (name = "isApproved") String isApproved,
                                    @NotBlank @PathVariable("bookingId") long bookingId,
                                    @NotBlank @RequestHeader("X-Sharer-User-Id") long requesterId) {
         log.info("Received Patch reply BookingDto {} from {}", requesterId);
@@ -40,7 +43,7 @@ public class BookingController {
     }
 
     @GetMapping("/{id}")
-    public BookingDto getBooking(
+    public BookingDtoResponse getBooking(
             @PathVariable("bookingId") long bookingId,
             @NotBlank @RequestHeader("X-Sharer-User-Id") long requesterId) {
         log.info("Received GET booking {} from {}", bookingId, requesterId);
@@ -48,7 +51,7 @@ public class BookingController {
     }
 
     @GetMapping()
-    public List<BookingDto> getAllBookingsOfUser(
+    public List<BookingDtoResponse> getAllBookingsOfUser(
             @NotBlank @RequestHeader("X-Sharer-User-Id") long bookerId,
             @RequestParam(name = "state", required = false, defaultValue = "ALL") String state) {
         log.info("Received GET all from bookerId {} with state {}", bookerId, state);
@@ -58,7 +61,7 @@ public class BookingController {
     }
 
     @GetMapping("/owner")
-    public List<BookingDto> getAllBookingsOfUserItems(
+    public List<BookingDtoResponse> getAllBookingsOfUserItems(
             @NotBlank @RequestHeader("X-Sharer-User-Id") long ownerId,
             @RequestParam(name = "state", required = false, defaultValue = "ALL") String state) {
         log.info("Received GET all from ownerId {} with state {}", ownerId, state);

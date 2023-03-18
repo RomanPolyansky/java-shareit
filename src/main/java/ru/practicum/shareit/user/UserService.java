@@ -11,7 +11,4 @@ interface UserService {
     User addUser(User user);
     User changeUser(User user);
     void deleteUser(long id);
-    boolean isValidUserToAdd(User user);
-    boolean exists(User user);
-    boolean exists(long id);
 }

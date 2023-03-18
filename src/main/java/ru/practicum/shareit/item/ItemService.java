@@ -12,7 +12,5 @@ interface ItemService {
     Item addItem(Item item);
     Item changeItem(Item item);
     void deleteItem(long id);
-    boolean isValidItem(Item item);
-    boolean exists(long id);
     void checkOwnership(Item item);
 }

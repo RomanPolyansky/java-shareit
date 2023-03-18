@@ -1,6 +1,7 @@
 package ru.practicum.shareit.user.model;
 
 import lombok.*;
+import ru.practicum.shareit.booking.model.Booking;
 
 import javax.persistence.*;
 

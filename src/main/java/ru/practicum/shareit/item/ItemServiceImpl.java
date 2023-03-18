@@ -33,13 +33,15 @@ public class ItemServiceImpl implements ItemService {
 
     @Override
     public Item addItem(Item item) {
-        if (!isValidItem(item)) throw new NoSuchElementException("item to add is not valid");
+        if (!userRepository.findById(item.getOwnerId()).isPresent()) {
+            throw new NoSuchElementException("user doesn't exist");
+        }
         return repository.save(item);
     }
 
+
     @Override
     public void deleteItem(long id) {
-        if (!exists(id)) throw new NoSuchElementException("item to delete is not found");
         repository.deleteById(id);
     }
 
@@ -51,24 +53,13 @@ public class ItemServiceImpl implements ItemService {
     }
 
     @Override
-    public boolean isValidItem(Item item) {
-        checkOwnership(item);
-        return true;
-    }
-
-    @Override
-    public boolean exists(long id) {
-        return repository.findById(id).isPresent();
-    }
-
-    @Override
     public void checkOwnership(Item item) {
         if (userRepository.findById(item.getOwnerId()).isEmpty()) {
             throw new ResponseStatusException(
                     HttpStatus.NOT_FOUND, "such user does not exist"
             );
         }
-        if (exists(item.getId()) && item.getOwnerId() != getItemById(item.getId()).getOwnerId()) {
+        if (repository.findById(item.getId()).isPresent() && item.getOwnerId() != getItemById(item.getId()).getOwnerId()) {
             throw new ResponseStatusException(
                     HttpStatus.NOT_FOUND, "User is not owner of this item"
             );
