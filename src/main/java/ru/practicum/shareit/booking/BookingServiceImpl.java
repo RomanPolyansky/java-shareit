@@ -6,6 +6,8 @@ import org.springframework.stereotype.Service;
 import ru.practicum.shareit.booking.model.Booking;
 import ru.practicum.shareit.item.ItemRepository;
 import ru.practicum.shareit.item.model.Item;
+import ru.practicum.shareit.user.UserRepository;
+import ru.practicum.shareit.user.model.User;
 
 import java.util.List;
 import java.util.NoSuchElementException;
@@ -17,6 +19,7 @@ public class BookingServiceImpl implements BookingService {
 
     private final BookingRepository repository;
     private final ItemRepository itemRepository;
+    private final UserRepository userRepository;
 
 
     @Override
@@ -24,6 +27,15 @@ public class BookingServiceImpl implements BookingService {
         log.info(booking.toString());
         if (!isValidBooking(booking)) throw new NoSuchElementException("booking to add is not valid");
         return repository.save(booking);
+    }
+
+    public User getBooker(Booking savedBooking) {
+        return userRepository.getById(savedBooking.getBookerId());
+    }
+
+    @Override
+    public Item getItem(Booking savedBooking) {
+        return itemRepository.getById(savedBooking.getItemId());
     }
 
     @Override

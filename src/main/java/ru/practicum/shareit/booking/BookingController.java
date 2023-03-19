@@ -8,6 +8,7 @@ import ru.practicum.shareit.booking.dto.BookingDto;
 import ru.practicum.shareit.booking.dto.BookingDtoResponse;
 import ru.practicum.shareit.booking.dto.BookingMapper;
 import ru.practicum.shareit.booking.model.Booking;
+import ru.practicum.shareit.item.model.Item;
 import ru.practicum.shareit.user.model.User;
 
 import javax.validation.constraints.NotBlank;
@@ -31,14 +32,20 @@ public class BookingController {
         booking.setStatus(Status.WAITING);
         booking.setBookerId(bookerId);
         log.info("Received POST BookingDto {} from {}", bookingDto, bookerId);
-        return BookingMapper.mapBookingToResponse(service.addBooking(booking));
+        Booking savedBooking = service.addBooking(booking);
+        User booker = service.getBooker(savedBooking);
+        Item item = service.getItem(savedBooking);
+        return BookingMapper.mapBookingToResponse(savedBooking, item, booker);
     }
+
+    /*
 
     @PatchMapping
     public BookingDtoResponse replyBooking(@RequestParam (name = "isApproved") String isApproved,
                                    @NotBlank @PathVariable("bookingId") long bookingId,
                                    @NotBlank @RequestHeader("X-Sharer-User-Id") long requesterId) {
         log.info("Received Patch reply BookingDto {} from {}", requesterId);
+
         return BookingMapper.mapBookingToResponse(service.replyBooking(bookingId, isApproved, requesterId));
     }
 
@@ -69,4 +76,6 @@ public class BookingController {
                 .map(BookingMapper::mapBookingToResponse)
                 .collect(Collectors.toList());
     }
+
+     */
 }

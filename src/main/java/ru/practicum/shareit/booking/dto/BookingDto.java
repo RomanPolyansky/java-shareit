@@ -20,7 +20,7 @@ public class BookingDto {
     private long bookerId;
     @JsonProperty("itemId")
     @NotNull(groups = {Create.class}, message = "'itemId' should not be null")
-    private long item;
+    private long itemId;
 
     @DateTimeFormat(pattern = "yyyy-MM-ddThh:mm:ss")
     @NotBlank(groups = {Create.class}, message = "'start' should not be null")

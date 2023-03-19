@@ -1,5 +1,7 @@
 package ru.practicum.shareit.booking.dto;
 
+import com.fasterxml.jackson.annotation.JsonAutoDetect;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -19,11 +21,6 @@ import java.time.LocalDateTime;
 public class BookingDtoResponse {
     private long id;
 
-    @JsonProperty("booker.id")
-    private long bookerId;
-    @JsonProperty("item.id")
-    private long item;
-
     @DateTimeFormat(pattern = "yyyy-MM-ddThh:mm:ss")
     private LocalDateTime start;
 
@@ -31,4 +28,6 @@ public class BookingDtoResponse {
     private LocalDateTime  end;
 
     private Status status;
+    private Item item;
+    private User booker;
 }
