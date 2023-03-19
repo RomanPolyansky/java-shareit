@@ -34,10 +34,10 @@ public class BookingController {
         return BookingMapper.mapBookingToResponse(service.addBooking(booking));
     }
 
-    @PatchMapping
-    public BookingDtoResponse replyBooking(@RequestParam (name = "isApproved") String isApproved,
-                                   @NotBlank @PathVariable("bookingId") long bookingId,
-                                   @NotBlank @RequestHeader("X-Sharer-User-Id") long requesterId) {
+    @PatchMapping("/{id}")
+    public BookingDtoResponse replyBooking(@RequestParam (name = "approved") String isApproved,
+                                           @NotBlank @PathVariable("id") long bookingId,
+                                           @NotBlank @RequestHeader("X-Sharer-User-Id") long requesterId) {
         log.info("Received Patch reply BookingDto {} from {}", requesterId);
 
         return BookingMapper.mapBookingToResponse(service.replyBooking(bookingId, isApproved, requesterId));
@@ -45,7 +45,7 @@ public class BookingController {
 
     @GetMapping("/{id}")
     public BookingDtoResponse getBooking(
-            @PathVariable("bookingId") long bookingId,
+            @PathVariable("id") long bookingId,
             @NotBlank @RequestHeader("X-Sharer-User-Id") long requesterId) {
         log.info("Received GET booking {} from {}", bookingId, requesterId);
         return BookingMapper.mapBookingToResponse(service.getBookingById(bookingId, requesterId));

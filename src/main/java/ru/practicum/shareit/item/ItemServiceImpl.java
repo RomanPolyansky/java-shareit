@@ -73,6 +73,7 @@ public class ItemServiceImpl implements ItemService {
 
     @Override
     public List<Item> searchForItemsByText(String text) {
+        if (text.isBlank()) throw new NoSuchElementException("text cannot be empty");
         return repository.searchForItemsByText(text);
     }
 }

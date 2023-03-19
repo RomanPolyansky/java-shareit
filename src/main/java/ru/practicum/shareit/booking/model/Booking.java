@@ -43,8 +43,6 @@ public class Booking {
     @Enumerated(EnumType.STRING)
     private Status status;
 
-
-
     public Booking() {
         super();
         status = Status.WAITING;
@@ -57,6 +55,7 @@ public class Booking {
         return this;
     }
 
+    @PostLoad
     public void recalculateStatus() {
         LocalDateTime now = LocalDateTime.now();
         if (now.isBefore(startDate)) {
