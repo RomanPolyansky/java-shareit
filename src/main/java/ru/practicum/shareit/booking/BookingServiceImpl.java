@@ -30,12 +30,12 @@ public class BookingServiceImpl implements BookingService {
     }
 
     public User getBooker(Booking savedBooking) {
-        return userRepository.getById(savedBooking.getBookerId());
+        return userRepository.getById(savedBooking.getBooker().getId());
     }
 
     @Override
     public Item getItem(Booking savedBooking) {
-        return itemRepository.getById(savedBooking.getItemId());
+        return itemRepository.getById(savedBooking.getItem().getId());
     }
 
     @Override

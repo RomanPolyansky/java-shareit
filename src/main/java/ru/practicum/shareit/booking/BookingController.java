@@ -31,13 +31,8 @@ public class BookingController {
         bookingDto.setBookerId(bookerId);
         Booking booking = BookingMapper.mapToBooking(bookingDto);
         log.info("Received POST BookingDto {} from {}", bookingDto, bookerId);
-        Booking savedBooking = service.addBooking(booking);
-        User booker = service.getBooker(savedBooking);
-        Item item = service.getItem(savedBooking);
-        return BookingMapper.mapBookingToResponse(savedBooking, item, booker);
+        return BookingMapper.mapBookingToResponse(booking);
     }
-
-    /*
 
     @PatchMapping
     public BookingDtoResponse replyBooking(@RequestParam (name = "isApproved") String isApproved,
@@ -75,6 +70,4 @@ public class BookingController {
                 .map(BookingMapper::mapBookingToResponse)
                 .collect(Collectors.toList());
     }
-
-     */
 }
