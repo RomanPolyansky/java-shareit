@@ -8,11 +8,11 @@ import ru.practicum.shareit.booking.dto.BookingDto;
 import ru.practicum.shareit.booking.dto.BookingDtoResponse;
 import ru.practicum.shareit.booking.dto.BookingMapper;
 import ru.practicum.shareit.booking.model.Booking;
-import ru.practicum.shareit.item.model.Item;
-import ru.practicum.shareit.user.model.User;
 
 import javax.validation.constraints.NotBlank;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.Queue;
 import java.util.stream.Collectors;
 
 /**
@@ -52,13 +52,16 @@ public class BookingController {
     }
 
     @GetMapping()
-    public List<BookingDtoResponse> getAllBookingsOfUser(
-            @NotBlank @RequestHeader("X-Sharer-User-Id") long bookerId,
+    public Queue<BookingDtoResponse> getAllBookingsOfUser(
+            @RequestHeader("X-Sharer-User-Id") @NotBlank long bookerId,
             @RequestParam(name = "state", required = false, defaultValue = "ALL") String state) {
         log.info("Received GET all from bookerId {} with state {}", bookerId, state);
-        return service.getAllBookingsOfUser(bookerId, state).stream()
-                .map(BookingMapper::mapBookingToResponse)
-                .collect(Collectors.toList());
+        Iterable<Booking> bookingList = service.getAllBookingsOfUser(bookerId, state);
+        Queue<BookingDtoResponse> bookingDtoResponseList = new LinkedList<>();
+        for (Booking booking : bookingList) {
+            bookingDtoResponseList.offer(BookingMapper.mapBookingToResponse(booking));
+        }
+        return bookingDtoResponseList;
     }
 
     @GetMapping("/owner")

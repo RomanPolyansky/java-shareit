@@ -39,9 +39,11 @@ public class Booking {
     @JoinColumn(name = "booker_id", nullable = false)
     private User booker;
 
-    @Column(name = "status")
-    @Enumerated(EnumType.STRING)
+    @Transient
     private Status status;
+
+    @Column(name = "status")
+    private String statusStr;
 
     public Booking() {
         super();

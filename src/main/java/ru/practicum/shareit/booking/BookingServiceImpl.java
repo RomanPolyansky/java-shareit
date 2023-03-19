@@ -1,16 +1,19 @@
 package ru.practicum.shareit.booking;
 
+import com.querydsl.core.types.dsl.BooleanExpression;
+import com.querydsl.core.types.dsl.Expressions;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.querydsl.QSort;
 import org.springframework.stereotype.Service;
 import ru.practicum.shareit.booking.model.Booking;
-import ru.practicum.shareit.item.ItemRepository;
+import ru.practicum.shareit.booking.model.QBooking;
 import ru.practicum.shareit.item.ItemService;
 import ru.practicum.shareit.item.model.Item;
-import ru.practicum.shareit.user.UserRepository;
 import ru.practicum.shareit.user.UserService;
-import ru.practicum.shareit.user.UserServiceImpl;
 import ru.practicum.shareit.user.model.User;
+
+//import practicum.shareit.booking.model.QBooking;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -31,7 +34,7 @@ public class BookingServiceImpl implements BookingService {
         log.info(booking.toString());
         if (!isValidBooking(booking)) throw new NoSuchElementException("booking to add is not valid");
         Booking fullBooking = getFullBooking(booking);
-        if(!fullBooking.getItem().getAvailable()) {
+        if (!fullBooking.getItem().getAvailable()) {
             throw new NoSuchElementException("item not available");
         }
         return repository.save(fullBooking);
@@ -53,6 +56,7 @@ public class BookingServiceImpl implements BookingService {
 
         return repository.save(getFullBooking(booking));
     }
+
     @Override
     public Booking getBookingById(long bookingId, long requesterId) {
         Booking bookingFromRepo = getFullBooking(bookingId);
@@ -66,16 +70,26 @@ public class BookingServiceImpl implements BookingService {
     }
 
     @Override
-    public List<Booking> getAllBookingsOfUser(long bookerId, String state) {
+    public Iterable<Booking> getAllBookingsOfUser(long requesterId, String state) {
         Status status = getStatusFromState(state);
 
-
-
-        if (state.equalsIgnoreCase("all")) {
-            return repository.getBookingsByBookerIdOrderByStartDateDesc(bookerId);
+        BooleanExpression eqStatus;
+        if (status.equals(Status.ALL)) {
+            eqStatus = Expressions.asBoolean(true).isTrue();
+        } else {
+            eqStatus = QBooking.booking.statusStr.eq(status.name());
         }
+        log.info(eqStatus.toString());
+        log.info(status.toString());
 
-        return repository.getBookingsByBookerIdAndStatusOrderByStartDateDesc(bookerId, state);
+        BooleanExpression eqOwner = QBooking.booking.booker.id.eq(requesterId);
+
+        Iterable<Booking> foundBookings = repository.findAll(eqStatus.and(eqOwner),
+                new QSort(QBooking.booking.startDate.asc()));
+
+        foundBookings.forEach(this::getFullBooking);
+
+        return foundBookings;
     }
 
     @Override

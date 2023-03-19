@@ -6,9 +6,6 @@ import ru.practicum.shareit.booking.model.Booking;
 
 import java.util.List;
 
-public interface BookingRepository extends JpaRepository<Booking, Long> , QuerydslPredicateExecutor<Booking> {
-
-    List<Booking> getBookingsByBookerIdAndStatusOrderByStartDateDesc(long bookerId, String status);
-    List<Booking> getBookingsByBookerIdOrderByStartDateDesc(long bookerId);
+public interface BookingRepository extends JpaRepository<Booking, Long>, QuerydslPredicateExecutor<Booking> {
 
 }
