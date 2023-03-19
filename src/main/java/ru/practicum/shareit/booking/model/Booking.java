@@ -9,7 +9,6 @@ import ru.practicum.shareit.user.model.User;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
-import java.util.Set;
 
 /**
  * TODO Sprint add-bookings.
@@ -32,11 +31,13 @@ public class Booking {
     @Column(name = "end_date")
     private LocalDateTime  endDate;
 
-    @Column(name = "booker_id")
-    private long bookerId;
+    @ManyToOne
+    @JoinColumn(name = "item_id", nullable = false)
+    private Item item;
 
-    @Column(name = "item_id")
-    private long itemId;
+    @ManyToOne
+    @JoinColumn(name = "booker_id", nullable = false)
+    private User booker;
 
     @Column(name = "status")
     @Enumerated(EnumType.STRING)
@@ -45,6 +46,8 @@ public class Booking {
 
 
     public Booking() {
+        super();
+        status = Status.WAITING;
     }
 
     public Booking merge(Booking other) {

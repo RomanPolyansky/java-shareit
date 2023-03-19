@@ -15,12 +15,10 @@ import java.time.LocalDateTime;
 @Data
 public class BookingDto {
 
-    private long id;
-
-    private long bookerId;
-    @JsonProperty("itemId")
     @NotNull(groups = {Create.class}, message = "'itemId' should not be null")
     private long itemId;
+
+    private long bookerId;
 
     @DateTimeFormat(pattern = "yyyy-MM-ddThh:mm:ss")
     @NotBlank(groups = {Create.class}, message = "'start' should not be null")

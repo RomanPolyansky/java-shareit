@@ -57,7 +57,7 @@ public class BookingServiceImpl implements BookingService {
     @Override
     public Booking getBookingById(long bookingId, long requesterId) {
         Booking bookingFromRepo = repository.getById(bookingId);
-        if (bookingFromRepo.getBookerId() == requesterId) {
+        if (bookingFromRepo.getBooker().getId() == requesterId) {
             return bookingFromRepo;
         } else if (isOwnerOfItem(bookingFromRepo, requesterId)) {
             return bookingFromRepo;
@@ -93,7 +93,7 @@ public class BookingServiceImpl implements BookingService {
     }
 
     private boolean isOwnerOfItem(Booking booking, long requesterId) {
-        Item item = itemRepository.getById(booking.getItemId());
+        Item item = itemRepository.getById(booking.getItem().getId());
         return item.getOwnerId() == requesterId;
     }
 }

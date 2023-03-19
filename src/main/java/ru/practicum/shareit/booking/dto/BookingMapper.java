@@ -9,19 +9,23 @@ public class BookingMapper {
         Booking booking = new Booking();
         booking.setStartDate(dto.getStart());
         booking.setEndDate(dto.getEnd());
-        booking.setItemId(dto.getItemId());
+        User booker = new User();
+        booker.setId(dto.getBookerId());
+        booking.setBooker(booker);
+        Item item = new Item();
+        item.setId(dto.getItemId());
+        booking.setItem(item);
         return booking;
     }
 
-    public static BookingDtoResponse mapBookingToResponse(Booking booking, Item item, User booker) {
+    public static BookingDtoResponse mapBookingToResponse(Booking booking) {
         BookingDtoResponse bookingDto = new BookingDtoResponse();
         bookingDto.setStart(booking.getStartDate());
         bookingDto.setEnd(booking.getEndDate());
         bookingDto.setId(booking.getId());
         bookingDto.setStatus(booking.getStatus());
-
-        bookingDto.setBooker(booker);
-        bookingDto.setItem(item);
+        bookingDto.setItem(booking.getItem());
+        bookingDto.setBooker(booking.getBooker());
         return bookingDto;
     }
 }

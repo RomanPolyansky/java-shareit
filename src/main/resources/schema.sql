@@ -26,8 +26,9 @@ CREATE TABLE IF NOT EXISTS `bookings`
     `item_id`    INT          NOT NULL,
     `status`     VARCHAR(255) NOT NULL,
     PRIMARY KEY (`id`),
-    FOREIGN KEY (`booker_id`) REFERENCES `users` (`id`),
-    FOREIGN KEY (`item_id`) REFERENCES `items` (`id`)
+    FOREIGN KEY (`booker_id`) REFERENCES `users` (`id`) ON DELETE CASCADE,
+    FOREIGN KEY (`item_id`) REFERENCES `items` (`id`) ON DELETE CASCADE,
+    CONSTRAINT booking_start_before_end CHECK ( start_date < end_date )
 );
 
 CREATE TABLE IF NOT EXISTS `comments`

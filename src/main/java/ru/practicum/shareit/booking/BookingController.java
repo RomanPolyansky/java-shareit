@@ -28,9 +28,8 @@ public class BookingController {
     @PostMapping
     public BookingDtoResponse addBooking(@RequestBody @Validated(Create.class) BookingDto bookingDto,
                                          @RequestHeader("X-Sharer-User-Id") long bookerId)  {
+        bookingDto.setBookerId(bookerId);
         Booking booking = BookingMapper.mapToBooking(bookingDto);
-        booking.setStatus(Status.WAITING);
-        booking.setBookerId(bookerId);
         log.info("Received POST BookingDto {} from {}", bookingDto, bookerId);
         Booking savedBooking = service.addBooking(booking);
         User booker = service.getBooker(savedBooking);

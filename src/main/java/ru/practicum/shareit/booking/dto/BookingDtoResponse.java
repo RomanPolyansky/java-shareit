@@ -1,7 +1,5 @@
 package ru.practicum.shareit.booking.dto;
 
-import com.fasterxml.jackson.annotation.JsonAutoDetect;
-import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -28,6 +26,7 @@ public class BookingDtoResponse {
     private LocalDateTime  end;
 
     private Status status;
+
     private Item item;
     private User booker;
 }

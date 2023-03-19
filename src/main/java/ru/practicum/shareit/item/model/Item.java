@@ -5,6 +5,7 @@ import lombok.Builder;
 import lombok.Data;
 
 import javax.persistence.*;
+import java.util.Objects;
 
 @Entity
 @Table(name = "items")
@@ -14,19 +15,19 @@ import javax.persistence.*;
 public class Item {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    long id;
+    private long id;
 
     @Column(name = "owner_id")
-    long ownerId;
+    private long ownerId;
 
     @Column(name = "name")
-    String name;
+    private String name;
 
     @Column(name = "description")
-    String description;
+    private String description;
 
     @Column(name = "is_available")
-    Boolean available;
+    private Boolean available;
 
     public Item() {
     }
@@ -36,5 +37,18 @@ public class Item {
         if (other.description != null) description = other.description;
         if (other.available != null) available = other.available;
         return this;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Item item = (Item) o;
+        return id == item.id;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
     }
 }
