@@ -5,8 +5,11 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import ru.practicum.shareit.booking.model.Booking;
 import ru.practicum.shareit.item.ItemRepository;
+import ru.practicum.shareit.item.ItemService;
 import ru.practicum.shareit.item.model.Item;
 import ru.practicum.shareit.user.UserRepository;
+import ru.practicum.shareit.user.UserService;
+import ru.practicum.shareit.user.UserServiceImpl;
 import ru.practicum.shareit.user.model.User;
 
 import java.util.List;
@@ -18,24 +21,31 @@ import java.util.NoSuchElementException;
 public class BookingServiceImpl implements BookingService {
 
     private final BookingRepository repository;
-    private final ItemRepository itemRepository;
-    private final UserRepository userRepository;
+    private final ItemService itemService;
+    private final UserService userService;
 
 
     @Override
     public Booking addBooking(Booking booking) {
         log.info(booking.toString());
         if (!isValidBooking(booking)) throw new NoSuchElementException("booking to add is not valid");
+        User booker = userService.getUserById(booking.getBooker().getId());
+        booking.setBooker(booker);
+        Item item = itemService.getItemById(booking.getItem().getId());
+        booking.setItem(item);
+        if(booking.getItem().getAvailable() == false) {
+            throw new NoSuchElementException("item not available");
+        }
         return repository.save(booking);
     }
 
     public User getBooker(Booking savedBooking) {
-        return userRepository.getById(savedBooking.getBooker().getId());
+        return userService.getUserById(savedBooking.getBooker().getId());
     }
 
     @Override
     public Item getItem(Booking savedBooking) {
-        return itemRepository.getById(savedBooking.getItem().getId());
+        return itemService.getItemById(savedBooking.getItem().getId());
     }
 
     @Override
@@ -93,7 +103,7 @@ public class BookingServiceImpl implements BookingService {
     }
 
     private boolean isOwnerOfItem(Booking booking, long requesterId) {
-        Item item = itemRepository.getById(booking.getItem().getId());
+        Item item = itemService.getItemById(booking.getItem().getId());
         return item.getOwnerId() == requesterId;
     }
 }

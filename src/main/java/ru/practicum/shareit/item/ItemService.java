@@ -4,7 +4,7 @@ import ru.practicum.shareit.item.model.Item;
 
 import java.util.List;
 
-interface ItemService {
+public interface ItemService {
     List<Item> getItemsByOwnerId(long id);
     List<Item> searchForItemsByText(String text);
     Item getItemById(long id);

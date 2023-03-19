@@ -14,7 +14,9 @@ CREATE TABLE IF NOT EXISTS `items`
     `is_available` BOOLEAN      NOT NULL,
     `owner_id`     INT          NOT NULL,
     PRIMARY KEY (`id`),
-    FOREIGN KEY  (`owner_id`) REFERENCES `users` (`id`)
+    FOREIGN KEY  (`owner_id`) REFERENCES `users` (`id`) ON DELETE CASCADE,
+    CONSTRAINT name_empty CHECK (name NOT LIKE ' ' AND name NOT LIKE ''),
+    CONSTRAINT description_empty CHECK (description NOT LIKE ' ' AND description NOT LIKE '')
 );
 
 CREATE TABLE IF NOT EXISTS `bookings`

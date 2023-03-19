@@ -31,7 +31,7 @@ public class BookingController {
         bookingDto.setBookerId(bookerId);
         Booking booking = BookingMapper.mapToBooking(bookingDto);
         log.info("Received POST BookingDto {} from {}", bookingDto, bookerId);
-        return BookingMapper.mapBookingToResponse(booking);
+        return BookingMapper.mapBookingToResponse(service.addBooking(booking));
     }
 
     @PatchMapping
