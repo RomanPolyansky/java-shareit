@@ -8,7 +8,10 @@ import java.util.List;
 public interface ItemService {
     List<Item> getItemsByOwnerId(long id);
     List<Item> searchForItemsByText(String text);
-    Item getItemById(long id);
+    Item getItemById(long id, long requesterId);
+
+    Item getItemByIdShort(long id);
+
     List<Item> getAll();
     Item addItem(Item item);
     Item changeItem(Item item);
@@ -16,4 +19,6 @@ public interface ItemService {
     void checkOwnership(Item item);
 
     Comment addCommment(Comment comment);
+
+    List<Comment> fetchComments(long itemId);
 }

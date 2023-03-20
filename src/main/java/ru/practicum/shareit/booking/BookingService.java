@@ -1,6 +1,5 @@
 package ru.practicum.shareit.booking;
 
-import ru.practicum.shareit.booking.dto.BookingDtoResponse;
 import ru.practicum.shareit.booking.model.Booking;
 
 public interface BookingService {
@@ -14,7 +13,7 @@ public interface BookingService {
 
     Iterable<Booking> getAllBookingsOfOwnerItems(long ownerId, String state);
 
-    BookingDtoResponse getNextBooking(long itemId);
+    Booking getNextBooking(long itemId);
 
-    BookingDtoResponse getLastBooking(long itemId);
+    Booking getLastBooking(long itemId);
 }

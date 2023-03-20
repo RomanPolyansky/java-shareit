@@ -7,8 +7,6 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.querydsl.QSort;
 import org.springframework.stereotype.Service;
-import ru.practicum.shareit.booking.dto.BookingDtoResponse;
-import ru.practicum.shareit.booking.dto.BookingMapper;
 import ru.practicum.shareit.booking.model.Booking;
 import ru.practicum.shareit.booking.model.QBooking;
 import ru.practicum.shareit.item.ItemService;
@@ -27,7 +25,6 @@ public class BookingServiceImpl implements BookingService {
     private final BookingRepository repository;
     private final ItemService itemService;
     private final UserService userService;
-
     private final JPAQueryFactory jpaQueryFactory;
 
 
@@ -101,25 +98,25 @@ public class BookingServiceImpl implements BookingService {
     }
 
     @Override
-    public BookingDtoResponse getNextBooking(long itemId) {
+    public Booking getNextBooking(long itemId) {
         Booking booking = jpaQueryFactory.selectFrom(QBooking.booking)
                 .where(QBooking.booking.item.id.eq(itemId))
                 .where(QBooking.booking.statusStr.eq(Status.APPROVED.toString()))
                 .where(QBooking.booking.startDate.after(LocalDateTime.now()))
                 .orderBy(QBooking.booking.startDate.asc())
                 .fetchFirst();
-        return booking == null ? null : BookingMapper.mapBookingToResponse(booking);
+        return booking;
     }
 
     @Override
-    public BookingDtoResponse getLastBooking(long itemId) {
+    public Booking getLastBooking(long itemId) {
         Booking booking = jpaQueryFactory.selectFrom(QBooking.booking)
                 .where(QBooking.booking.item.id.eq(itemId))
                 .where(QBooking.booking.statusStr.eq(Status.APPROVED.toString()))
                 .where(QBooking.booking.startDate.before(LocalDateTime.now()))
                 .orderBy(QBooking.booking.startDate.desc())
                 .fetchFirst();
-        return booking == null ? null : BookingMapper.mapBookingToResponse(booking);
+        return booking;
     }
 
     private boolean isValidNewBooking(Booking booking) {
@@ -152,7 +149,7 @@ public class BookingServiceImpl implements BookingService {
     private Booking getFullBooking(Booking booking) {
         User booker = userService.getUserById(booking.getBooker().getId());
         booking.setBooker(booker);
-        Item item = itemService.getItemById(booking.getItem().getId());
+        Item item = itemService.getItemByIdShort(booking.getItem().getId());
         booking.setItem(item);
         return booking;
     }
@@ -169,13 +166,13 @@ public class BookingServiceImpl implements BookingService {
         Booking booking = repository.getById(bookingId);
         User booker = userService.getUserById(booking.getBooker().getId());
         booking.setBooker(booker);
-        Item item = itemService.getItemById(booking.getItem().getId());
+        Item item = itemService.getItemByIdShort(booking.getItem().getId());
         booking.setItem(item);
         return booking;
     }
 
     private boolean isOwnerOfItem(Booking booking, long requesterId) {
-        Item item = itemService.getItemById(booking.getItem().getId());
+        Item item = itemService.getItemById(booking.getItem().getId(), requesterId);
         return item.getOwnerId() == requesterId;
     }
 

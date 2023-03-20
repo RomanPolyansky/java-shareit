@@ -51,13 +51,8 @@ public class ItemController {
             @PathVariable("id") long id,
             @NotBlank @RequestHeader("X-Sharer-User-Id") long requesterId) {
         log.info("Received GET id {} from {}", id, requesterId);
-        Item item = service.getItemById(id);
-        ItemDto itemDto = ItemMapper.mapItemToResponse(item);
-        if (requesterId == item.getOwnerId()) {
-            itemDto.setNextBooking(bookingService.getNextBooking(item.getId()));
-            itemDto.setLastBooking(bookingService.getLastBooking(item.getId()));
-        }
-        return itemDto;
+        Item item = service.getItemById(id, requesterId);
+        return ItemMapper.mapItemToResponse(item);
     }
 
     @GetMapping()

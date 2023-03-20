@@ -3,6 +3,7 @@ package ru.practicum.shareit.item.model;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import ru.practicum.shareit.booking.model.Booking;
 
 import javax.persistence.*;
 import java.util.List;
@@ -30,8 +31,15 @@ public class Item {
     @Column(name = "is_available")
     private Boolean available;
 
-    @OneToMany(mappedBy = "item")
+    @Transient
     private List<Comment> comments;
+
+    @Transient
+    private Booking nextBooking;
+
+    @Transient
+    private Booking lastBooking;
+
 
     public Item() {
     }
