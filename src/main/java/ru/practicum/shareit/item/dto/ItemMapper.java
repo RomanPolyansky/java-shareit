@@ -18,6 +18,7 @@ public class ItemMapper {
         itemDto.setName(item.getName());
         itemDto.setDescription(item.getDescription());
         itemDto.setAvailable(item.getAvailable());
+        itemDto.setComments(item.getComments());
         return itemDto;
     }
 }

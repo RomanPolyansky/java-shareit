@@ -1519,3 +1519,194 @@ java.sql.SQLClientInfoException: Client info name 'ApplicationName' not supporte
 	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1136)
 	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:635)
 	at java.base/java.lang.Thread.run(Thread.java:833)
+2023-03-20 13:18:46 jdbc[3]: exception
+java.sql.SQLClientInfoException: Client info name 'ApplicationName' not supported.
+	at org.h2.jdbc.JdbcConnection.setClientInfo(JdbcConnection.java:1573)
+	at com.intellij.database.remote.jdbc.impl.RemoteConnectionImpl.setClientInfo(RemoteConnectionImpl.java:470)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77)
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:568)
+	at java.rmi/sun.rmi.server.UnicastServerRef.dispatch(UnicastServerRef.java:360)
+	at java.rmi/sun.rmi.transport.Transport$1.run(Transport.java:200)
+	at java.rmi/sun.rmi.transport.Transport$1.run(Transport.java:197)
+	at java.base/java.security.AccessController.doPrivileged(AccessController.java:712)
+	at java.rmi/sun.rmi.transport.Transport.serviceCall(Transport.java:196)
+	at java.rmi/sun.rmi.transport.tcp.TCPTransport.handleMessages(TCPTransport.java:587)
+	at java.rmi/sun.rmi.transport.tcp.TCPTransport$ConnectionHandler.run0(TCPTransport.java:828)
+	at java.rmi/sun.rmi.transport.tcp.TCPTransport$ConnectionHandler.lambda$run$0(TCPTransport.java:705)
+	at java.base/java.security.AccessController.doPrivileged(AccessController.java:399)
+	at java.rmi/sun.rmi.transport.tcp.TCPTransport$ConnectionHandler.run(TCPTransport.java:704)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1136)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:635)
+	at java.base/java.lang.Thread.run(Thread.java:833)
+2023-03-20 13:18:47 jdbc[4]: exception
+java.sql.SQLClientInfoException: Client info name 'ApplicationName' not supported.
+	at org.h2.jdbc.JdbcConnection.setClientInfo(JdbcConnection.java:1573)
+	at com.intellij.database.remote.jdbc.impl.RemoteConnectionImpl.setClientInfo(RemoteConnectionImpl.java:470)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77)
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:568)
+	at java.rmi/sun.rmi.server.UnicastServerRef.dispatch(UnicastServerRef.java:360)
+	at java.rmi/sun.rmi.transport.Transport$1.run(Transport.java:200)
+	at java.rmi/sun.rmi.transport.Transport$1.run(Transport.java:197)
+	at java.base/java.security.AccessController.doPrivileged(AccessController.java:712)
+	at java.rmi/sun.rmi.transport.Transport.serviceCall(Transport.java:196)
+	at java.rmi/sun.rmi.transport.tcp.TCPTransport.handleMessages(TCPTransport.java:587)
+	at java.rmi/sun.rmi.transport.tcp.TCPTransport$ConnectionHandler.run0(TCPTransport.java:828)
+	at java.rmi/sun.rmi.transport.tcp.TCPTransport$ConnectionHandler.lambda$run$0(TCPTransport.java:705)
+	at java.base/java.security.AccessController.doPrivileged(AccessController.java:399)
+	at java.rmi/sun.rmi.transport.tcp.TCPTransport$ConnectionHandler.run(TCPTransport.java:704)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1136)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:635)
+	at java.base/java.lang.Thread.run(Thread.java:833)
+2023-03-20 13:18:58 jdbc[5]: exception
+java.sql.SQLClientInfoException: Client info name 'ApplicationName' not supported.
+	at org.h2.jdbc.JdbcConnection.setClientInfo(JdbcConnection.java:1573)
+	at com.intellij.database.remote.jdbc.impl.RemoteConnectionImpl.setClientInfo(RemoteConnectionImpl.java:470)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77)
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:568)
+	at java.rmi/sun.rmi.server.UnicastServerRef.dispatch(UnicastServerRef.java:360)
+	at java.rmi/sun.rmi.transport.Transport$1.run(Transport.java:200)
+	at java.rmi/sun.rmi.transport.Transport$1.run(Transport.java:197)
+	at java.base/java.security.AccessController.doPrivileged(AccessController.java:712)
+	at java.rmi/sun.rmi.transport.Transport.serviceCall(Transport.java:196)
+	at java.rmi/sun.rmi.transport.tcp.TCPTransport.handleMessages(TCPTransport.java:587)
+	at java.rmi/sun.rmi.transport.tcp.TCPTransport$ConnectionHandler.run0(TCPTransport.java:828)
+	at java.rmi/sun.rmi.transport.tcp.TCPTransport$ConnectionHandler.lambda$run$0(TCPTransport.java:705)
+	at java.base/java.security.AccessController.doPrivileged(AccessController.java:399)
+	at java.rmi/sun.rmi.transport.tcp.TCPTransport$ConnectionHandler.run(TCPTransport.java:704)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1136)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:635)
+	at java.base/java.lang.Thread.run(Thread.java:833)
+2023-03-20 19:14:03 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Таблица "ITEMS_COMMENT" не найдена
+Table "ITEMS_COMMENT" not found; SQL statement:
+select comment0_.item_id as item_id1_3_0_, comment0_.comment_id as comment_2_3_0_, comment1_.id as id1_1_1_, comment1_.author_id as author_i4_1_1_, comment1_.created as created2_1_1_, comment1_.item_id as item_id5_1_1_, comment1_.text as text3_1_1_, user2_.id as id1_4_2_, user2_.email as email2_4_2_, user2_.name as name3_4_2_, item3_.id as id1_2_3_, item3_.is_available as is_avail2_2_3_, item3_.description as descript3_2_3_, item3_.name as name4_2_3_, item3_.owner_id as owner_id5_2_3_ from items_comment comment0_ inner join comments comment1_ on comment0_.comment_id=comment1_.id left outer join users user2_ on comment1_.author_id=user2_.id inner join items item3_ on comment1_.item_id=item3_.id where comment0_.item_id=? [42102-214]
+2023-03-20 19:14:03 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Таблица "ITEMS_COMMENT" не найдена
+Table "ITEMS_COMMENT" not found; SQL statement:
+select comment0_.item_id as item_id1_3_0_, comment0_.comment_id as comment_2_3_0_, comment1_.id as id1_1_1_, comment1_.author_id as author_i4_1_1_, comment1_.created as created2_1_1_, comment1_.item_id as item_id5_1_1_, comment1_.text as text3_1_1_, user2_.id as id1_4_2_, user2_.email as email2_4_2_, user2_.name as name3_4_2_, item3_.id as id1_2_3_, item3_.is_available as is_avail2_2_3_, item3_.description as descript3_2_3_, item3_.name as name4_2_3_, item3_.owner_id as owner_id5_2_3_ from items_comment comment0_ inner join comments comment1_ on comment0_.comment_id=comment1_.id left outer join users user2_ on comment1_.author_id=user2_.id inner join items item3_ on comment1_.item_id=item3_.id where comment0_.item_id=? [42102-214]
+2023-03-20 19:14:03 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Таблица "ITEMS_COMMENT" не найдена
+Table "ITEMS_COMMENT" not found; SQL statement:
+select comment0_.item_id as item_id1_3_0_, comment0_.comment_id as comment_2_3_0_, comment1_.id as id1_1_1_, comment1_.author_id as author_i4_1_1_, comment1_.created as created2_1_1_, comment1_.item_id as item_id5_1_1_, comment1_.text as text3_1_1_, user2_.id as id1_4_2_, user2_.email as email2_4_2_, user2_.name as name3_4_2_, item3_.id as id1_2_3_, item3_.is_available as is_avail2_2_3_, item3_.description as descript3_2_3_, item3_.name as name4_2_3_, item3_.owner_id as owner_id5_2_3_ from items_comment comment0_ inner join comments comment1_ on comment0_.comment_id=comment1_.id left outer join users user2_ on comment1_.author_id=user2_.id inner join items item3_ on comment1_.item_id=item3_.id where comment0_.item_id=? [42102-214]
+2023-03-20 19:14:03 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Таблица "ITEMS_COMMENT" не найдена
+Table "ITEMS_COMMENT" not found; SQL statement:
+select comment0_.item_id as item_id1_3_0_, comment0_.comment_id as comment_2_3_0_, comment1_.id as id1_1_1_, comment1_.author_id as author_i4_1_1_, comment1_.created as created2_1_1_, comment1_.item_id as item_id5_1_1_, comment1_.text as text3_1_1_, user2_.id as id1_4_2_, user2_.email as email2_4_2_, user2_.name as name3_4_2_, item3_.id as id1_2_3_, item3_.is_available as is_avail2_2_3_, item3_.description as descript3_2_3_, item3_.name as name4_2_3_, item3_.owner_id as owner_id5_2_3_ from items_comment comment0_ inner join comments comment1_ on comment0_.comment_id=comment1_.id left outer join users user2_ on comment1_.author_id=user2_.id inner join items item3_ on comment1_.item_id=item3_.id where comment0_.item_id=? [42102-214]
+2023-03-20 19:14:03 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Таблица "ITEMS_COMMENT" не найдена
+Table "ITEMS_COMMENT" not found; SQL statement:
+select comment0_.item_id as item_id1_3_0_, comment0_.comment_id as comment_2_3_0_, comment1_.id as id1_1_1_, comment1_.author_id as author_i4_1_1_, comment1_.created as created2_1_1_, comment1_.item_id as item_id5_1_1_, comment1_.text as text3_1_1_, user2_.id as id1_4_2_, user2_.email as email2_4_2_, user2_.name as name3_4_2_, item3_.id as id1_2_3_, item3_.is_available as is_avail2_2_3_, item3_.description as descript3_2_3_, item3_.name as name4_2_3_, item3_.owner_id as owner_id5_2_3_ from items_comment comment0_ inner join comments comment1_ on comment0_.comment_id=comment1_.id left outer join users user2_ on comment1_.author_id=user2_.id inner join items item3_ on comment1_.item_id=item3_.id where comment0_.item_id=? [42102-214]
+2023-03-20 19:14:03 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Таблица "ITEMS_COMMENT" не найдена
+Table "ITEMS_COMMENT" not found; SQL statement:
+select comment0_.item_id as item_id1_3_0_, comment0_.comment_id as comment_2_3_0_, comment1_.id as id1_1_1_, comment1_.author_id as author_i4_1_1_, comment1_.created as created2_1_1_, comment1_.item_id as item_id5_1_1_, comment1_.text as text3_1_1_, user2_.id as id1_4_2_, user2_.email as email2_4_2_, user2_.name as name3_4_2_, item3_.id as id1_2_3_, item3_.is_available as is_avail2_2_3_, item3_.description as descript3_2_3_, item3_.name as name4_2_3_, item3_.owner_id as owner_id5_2_3_ from items_comment comment0_ inner join comments comment1_ on comment0_.comment_id=comment1_.id left outer join users user2_ on comment1_.author_id=user2_.id inner join items item3_ on comment1_.item_id=item3_.id where comment0_.item_id=? [42102-214]
+2023-03-20 19:14:03 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Таблица "ITEMS_COMMENT" не найдена
+Table "ITEMS_COMMENT" not found; SQL statement:
+select comment0_.item_id as item_id1_3_0_, comment0_.comment_id as comment_2_3_0_, comment1_.id as id1_1_1_, comment1_.author_id as author_i4_1_1_, comment1_.created as created2_1_1_, comment1_.item_id as item_id5_1_1_, comment1_.text as text3_1_1_, user2_.id as id1_4_2_, user2_.email as email2_4_2_, user2_.name as name3_4_2_, item3_.id as id1_2_3_, item3_.is_available as is_avail2_2_3_, item3_.description as descript3_2_3_, item3_.name as name4_2_3_, item3_.owner_id as owner_id5_2_3_ from items_comment comment0_ inner join comments comment1_ on comment0_.comment_id=comment1_.id left outer join users user2_ on comment1_.author_id=user2_.id inner join items item3_ on comment1_.item_id=item3_.id where comment0_.item_id=? [42102-214]
+2023-03-20 19:14:04 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Таблица "ITEMS_COMMENT" не найдена
+Table "ITEMS_COMMENT" not found; SQL statement:
+select comment0_.item_id as item_id1_3_0_, comment0_.comment_id as comment_2_3_0_, comment1_.id as id1_1_1_, comment1_.author_id as author_i4_1_1_, comment1_.created as created2_1_1_, comment1_.item_id as item_id5_1_1_, comment1_.text as text3_1_1_, user2_.id as id1_4_2_, user2_.email as email2_4_2_, user2_.name as name3_4_2_, item3_.id as id1_2_3_, item3_.is_available as is_avail2_2_3_, item3_.description as descript3_2_3_, item3_.name as name4_2_3_, item3_.owner_id as owner_id5_2_3_ from items_comment comment0_ inner join comments comment1_ on comment0_.comment_id=comment1_.id left outer join users user2_ on comment1_.author_id=user2_.id inner join items item3_ on comment1_.item_id=item3_.id where comment0_.item_id=? [42102-214]
+2023-03-20 19:14:04 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Таблица "ITEMS_COMMENT" не найдена
+Table "ITEMS_COMMENT" not found; SQL statement:
+select comment0_.item_id as item_id1_3_0_, comment0_.comment_id as comment_2_3_0_, comment1_.id as id1_1_1_, comment1_.author_id as author_i4_1_1_, comment1_.created as created2_1_1_, comment1_.item_id as item_id5_1_1_, comment1_.text as text3_1_1_, user2_.id as id1_4_2_, user2_.email as email2_4_2_, user2_.name as name3_4_2_, item3_.id as id1_2_3_, item3_.is_available as is_avail2_2_3_, item3_.description as descript3_2_3_, item3_.name as name4_2_3_, item3_.owner_id as owner_id5_2_3_ from items_comment comment0_ inner join comments comment1_ on comment0_.comment_id=comment1_.id left outer join users user2_ on comment1_.author_id=user2_.id inner join items item3_ on comment1_.item_id=item3_.id where comment0_.item_id=? [42102-214]
+2023-03-20 19:14:04 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Таблица "ITEMS_COMMENT" не найдена
+Table "ITEMS_COMMENT" not found; SQL statement:
+select comment0_.item_id as item_id1_3_0_, comment0_.comment_id as comment_2_3_0_, comment1_.id as id1_1_1_, comment1_.author_id as author_i4_1_1_, comment1_.created as created2_1_1_, comment1_.item_id as item_id5_1_1_, comment1_.text as text3_1_1_, user2_.id as id1_4_2_, user2_.email as email2_4_2_, user2_.name as name3_4_2_, item3_.id as id1_2_3_, item3_.is_available as is_avail2_2_3_, item3_.description as descript3_2_3_, item3_.name as name4_2_3_, item3_.owner_id as owner_id5_2_3_ from items_comment comment0_ inner join comments comment1_ on comment0_.comment_id=comment1_.id left outer join users user2_ on comment1_.author_id=user2_.id inner join items item3_ on comment1_.item_id=item3_.id where comment0_.item_id=? [42102-214]
+2023-03-20 19:14:04 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Таблица "ITEMS_COMMENT" не найдена
+Table "ITEMS_COMMENT" not found; SQL statement:
+select comment0_.item_id as item_id1_3_0_, comment0_.comment_id as comment_2_3_0_, comment1_.id as id1_1_1_, comment1_.author_id as author_i4_1_1_, comment1_.created as created2_1_1_, comment1_.item_id as item_id5_1_1_, comment1_.text as text3_1_1_, user2_.id as id1_4_2_, user2_.email as email2_4_2_, user2_.name as name3_4_2_, item3_.id as id1_2_3_, item3_.is_available as is_avail2_2_3_, item3_.description as descript3_2_3_, item3_.name as name4_2_3_, item3_.owner_id as owner_id5_2_3_ from items_comment comment0_ inner join comments comment1_ on comment0_.comment_id=comment1_.id left outer join users user2_ on comment1_.author_id=user2_.id inner join items item3_ on comment1_.item_id=item3_.id where comment0_.item_id=? [42102-214]
+2023-03-20 19:14:05 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Таблица "ITEMS_COMMENT" не найдена
+Table "ITEMS_COMMENT" not found; SQL statement:
+select comment0_.item_id as item_id1_3_0_, comment0_.comment_id as comment_2_3_0_, comment1_.id as id1_1_1_, comment1_.author_id as author_i4_1_1_, comment1_.created as created2_1_1_, comment1_.item_id as item_id5_1_1_, comment1_.text as text3_1_1_, user2_.id as id1_4_2_, user2_.email as email2_4_2_, user2_.name as name3_4_2_, item3_.id as id1_2_3_, item3_.is_available as is_avail2_2_3_, item3_.description as descript3_2_3_, item3_.name as name4_2_3_, item3_.owner_id as owner_id5_2_3_ from items_comment comment0_ inner join comments comment1_ on comment0_.comment_id=comment1_.id left outer join users user2_ on comment1_.author_id=user2_.id inner join items item3_ on comment1_.item_id=item3_.id where comment0_.item_id=? [42102-214]
+2023-03-20 19:14:05 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Таблица "ITEMS_COMMENT" не найдена
+Table "ITEMS_COMMENT" not found; SQL statement:
+select comment0_.item_id as item_id1_3_0_, comment0_.comment_id as comment_2_3_0_, comment1_.id as id1_1_1_, comment1_.author_id as author_i4_1_1_, comment1_.created as created2_1_1_, comment1_.item_id as item_id5_1_1_, comment1_.text as text3_1_1_, user2_.id as id1_4_2_, user2_.email as email2_4_2_, user2_.name as name3_4_2_, item3_.id as id1_2_3_, item3_.is_available as is_avail2_2_3_, item3_.description as descript3_2_3_, item3_.name as name4_2_3_, item3_.owner_id as owner_id5_2_3_ from items_comment comment0_ inner join comments comment1_ on comment0_.comment_id=comment1_.id left outer join users user2_ on comment1_.author_id=user2_.id inner join items item3_ on comment1_.item_id=item3_.id where comment0_.item_id=? [42102-214]
+2023-03-20 19:14:05 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Таблица "ITEMS_COMMENT" не найдена
+Table "ITEMS_COMMENT" not found; SQL statement:
+select comment0_.item_id as item_id1_3_0_, comment0_.comment_id as comment_2_3_0_, comment1_.id as id1_1_1_, comment1_.author_id as author_i4_1_1_, comment1_.created as created2_1_1_, comment1_.item_id as item_id5_1_1_, comment1_.text as text3_1_1_, user2_.id as id1_4_2_, user2_.email as email2_4_2_, user2_.name as name3_4_2_, item3_.id as id1_2_3_, item3_.is_available as is_avail2_2_3_, item3_.description as descript3_2_3_, item3_.name as name4_2_3_, item3_.owner_id as owner_id5_2_3_ from items_comment comment0_ inner join comments comment1_ on comment0_.comment_id=comment1_.id left outer join users user2_ on comment1_.author_id=user2_.id inner join items item3_ on comment1_.item_id=item3_.id where comment0_.item_id=? [42102-214]
+2023-03-20 19:14:05 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Таблица "ITEMS_COMMENT" не найдена
+Table "ITEMS_COMMENT" not found; SQL statement:
+select comment0_.item_id as item_id1_3_0_, comment0_.comment_id as comment_2_3_0_, comment1_.id as id1_1_1_, comment1_.author_id as author_i4_1_1_, comment1_.created as created2_1_1_, comment1_.item_id as item_id5_1_1_, comment1_.text as text3_1_1_, user2_.id as id1_4_2_, user2_.email as email2_4_2_, user2_.name as name3_4_2_, item3_.id as id1_2_3_, item3_.is_available as is_avail2_2_3_, item3_.description as descript3_2_3_, item3_.name as name4_2_3_, item3_.owner_id as owner_id5_2_3_ from items_comment comment0_ inner join comments comment1_ on comment0_.comment_id=comment1_.id left outer join users user2_ on comment1_.author_id=user2_.id inner join items item3_ on comment1_.item_id=item3_.id where comment0_.item_id=? [42102-214]
+2023-03-20 19:14:05 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Таблица "ITEMS_COMMENT" не найдена
+Table "ITEMS_COMMENT" not found; SQL statement:
+select comment0_.item_id as item_id1_3_0_, comment0_.comment_id as comment_2_3_0_, comment1_.id as id1_1_1_, comment1_.author_id as author_i4_1_1_, comment1_.created as created2_1_1_, comment1_.item_id as item_id5_1_1_, comment1_.text as text3_1_1_, user2_.id as id1_4_2_, user2_.email as email2_4_2_, user2_.name as name3_4_2_, item3_.id as id1_2_3_, item3_.is_available as is_avail2_2_3_, item3_.description as descript3_2_3_, item3_.name as name4_2_3_, item3_.owner_id as owner_id5_2_3_ from items_comment comment0_ inner join comments comment1_ on comment0_.comment_id=comment1_.id left outer join users user2_ on comment1_.author_id=user2_.id inner join items item3_ on comment1_.item_id=item3_.id where comment0_.item_id=? [42102-214]
+2023-03-20 19:14:05 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Таблица "ITEMS_COMMENT" не найдена
+Table "ITEMS_COMMENT" not found; SQL statement:
+select comment0_.item_id as item_id1_3_0_, comment0_.comment_id as comment_2_3_0_, comment1_.id as id1_1_1_, comment1_.author_id as author_i4_1_1_, comment1_.created as created2_1_1_, comment1_.item_id as item_id5_1_1_, comment1_.text as text3_1_1_, user2_.id as id1_4_2_, user2_.email as email2_4_2_, user2_.name as name3_4_2_, item3_.id as id1_2_3_, item3_.is_available as is_avail2_2_3_, item3_.description as descript3_2_3_, item3_.name as name4_2_3_, item3_.owner_id as owner_id5_2_3_ from items_comment comment0_ inner join comments comment1_ on comment0_.comment_id=comment1_.id left outer join users user2_ on comment1_.author_id=user2_.id inner join items item3_ on comment1_.item_id=item3_.id where comment0_.item_id=? [42102-214]
+2023-03-20 19:14:10 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Таблица "ITEMS_COMMENT" не найдена
+Table "ITEMS_COMMENT" not found; SQL statement:
+select comment0_.item_id as item_id1_3_0_, comment0_.comment_id as comment_2_3_0_, comment1_.id as id1_1_1_, comment1_.author_id as author_i4_1_1_, comment1_.created as created2_1_1_, comment1_.item_id as item_id5_1_1_, comment1_.text as text3_1_1_, user2_.id as id1_4_2_, user2_.email as email2_4_2_, user2_.name as name3_4_2_, item3_.id as id1_2_3_, item3_.is_available as is_avail2_2_3_, item3_.description as descript3_2_3_, item3_.name as name4_2_3_, item3_.owner_id as owner_id5_2_3_ from items_comment comment0_ inner join comments comment1_ on comment0_.comment_id=comment1_.id left outer join users user2_ on comment1_.author_id=user2_.id inner join items item3_ on comment1_.item_id=item3_.id where comment0_.item_id=? [42102-214]
+2023-03-20 19:14:10 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Таблица "ITEMS_COMMENT" не найдена
+Table "ITEMS_COMMENT" not found; SQL statement:
+select comment0_.item_id as item_id1_3_0_, comment0_.comment_id as comment_2_3_0_, comment1_.id as id1_1_1_, comment1_.author_id as author_i4_1_1_, comment1_.created as created2_1_1_, comment1_.item_id as item_id5_1_1_, comment1_.text as text3_1_1_, user2_.id as id1_4_2_, user2_.email as email2_4_2_, user2_.name as name3_4_2_, item3_.id as id1_2_3_, item3_.is_available as is_avail2_2_3_, item3_.description as descript3_2_3_, item3_.name as name4_2_3_, item3_.owner_id as owner_id5_2_3_ from items_comment comment0_ inner join comments comment1_ on comment0_.comment_id=comment1_.id left outer join users user2_ on comment1_.author_id=user2_.id inner join items item3_ on comment1_.item_id=item3_.id where comment0_.item_id=? [42102-214]
+2023-03-20 19:14:10 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Таблица "ITEMS_COMMENT" не найдена
+Table "ITEMS_COMMENT" not found; SQL statement:
+select comment0_.item_id as item_id1_3_0_, comment0_.comment_id as comment_2_3_0_, comment1_.id as id1_1_1_, comment1_.author_id as author_i4_1_1_, comment1_.created as created2_1_1_, comment1_.item_id as item_id5_1_1_, comment1_.text as text3_1_1_, user2_.id as id1_4_2_, user2_.email as email2_4_2_, user2_.name as name3_4_2_, item3_.id as id1_2_3_, item3_.is_available as is_avail2_2_3_, item3_.description as descript3_2_3_, item3_.name as name4_2_3_, item3_.owner_id as owner_id5_2_3_ from items_comment comment0_ inner join comments comment1_ on comment0_.comment_id=comment1_.id left outer join users user2_ on comment1_.author_id=user2_.id inner join items item3_ on comment1_.item_id=item3_.id where comment0_.item_id=? [42102-214]
+2023-03-20 19:14:10 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Таблица "ITEMS_COMMENT" не найдена
+Table "ITEMS_COMMENT" not found; SQL statement:
+select comment0_.item_id as item_id1_3_0_, comment0_.comment_id as comment_2_3_0_, comment1_.id as id1_1_1_, comment1_.author_id as author_i4_1_1_, comment1_.created as created2_1_1_, comment1_.item_id as item_id5_1_1_, comment1_.text as text3_1_1_, user2_.id as id1_4_2_, user2_.email as email2_4_2_, user2_.name as name3_4_2_, item3_.id as id1_2_3_, item3_.is_available as is_avail2_2_3_, item3_.description as descript3_2_3_, item3_.name as name4_2_3_, item3_.owner_id as owner_id5_2_3_ from items_comment comment0_ inner join comments comment1_ on comment0_.comment_id=comment1_.id left outer join users user2_ on comment1_.author_id=user2_.id inner join items item3_ on comment1_.item_id=item3_.id where comment0_.item_id=? [42102-214]
+2023-03-20 19:14:10 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Таблица "ITEMS_COMMENT" не найдена
+Table "ITEMS_COMMENT" not found; SQL statement:
+select comment0_.item_id as item_id1_3_0_, comment0_.comment_id as comment_2_3_0_, comment1_.id as id1_1_1_, comment1_.author_id as author_i4_1_1_, comment1_.created as created2_1_1_, comment1_.item_id as item_id5_1_1_, comment1_.text as text3_1_1_, user2_.id as id1_4_2_, user2_.email as email2_4_2_, user2_.name as name3_4_2_, item3_.id as id1_2_3_, item3_.is_available as is_avail2_2_3_, item3_.description as descript3_2_3_, item3_.name as name4_2_3_, item3_.owner_id as owner_id5_2_3_ from items_comment comment0_ inner join comments comment1_ on comment0_.comment_id=comment1_.id left outer join users user2_ on comment1_.author_id=user2_.id inner join items item3_ on comment1_.item_id=item3_.id where comment0_.item_id=? [42102-214]
+2023-03-20 19:14:10 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Таблица "ITEMS_COMMENT" не найдена
+Table "ITEMS_COMMENT" not found; SQL statement:
+select comment0_.item_id as item_id1_3_0_, comment0_.comment_id as comment_2_3_0_, comment1_.id as id1_1_1_, comment1_.author_id as author_i4_1_1_, comment1_.created as created2_1_1_, comment1_.item_id as item_id5_1_1_, comment1_.text as text3_1_1_, user2_.id as id1_4_2_, user2_.email as email2_4_2_, user2_.name as name3_4_2_, item3_.id as id1_2_3_, item3_.is_available as is_avail2_2_3_, item3_.description as descript3_2_3_, item3_.name as name4_2_3_, item3_.owner_id as owner_id5_2_3_ from items_comment comment0_ inner join comments comment1_ on comment0_.comment_id=comment1_.id left outer join users user2_ on comment1_.author_id=user2_.id inner join items item3_ on comment1_.item_id=item3_.id where comment0_.item_id=? [42102-214]
+2023-03-20 19:14:11 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Таблица "ITEMS_COMMENT" не найдена
+Table "ITEMS_COMMENT" not found; SQL statement:
+select comment0_.item_id as item_id1_3_0_, comment0_.comment_id as comment_2_3_0_, comment1_.id as id1_1_1_, comment1_.author_id as author_i4_1_1_, comment1_.created as created2_1_1_, comment1_.item_id as item_id5_1_1_, comment1_.text as text3_1_1_, user2_.id as id1_4_2_, user2_.email as email2_4_2_, user2_.name as name3_4_2_, item3_.id as id1_2_3_, item3_.is_available as is_avail2_2_3_, item3_.description as descript3_2_3_, item3_.name as name4_2_3_, item3_.owner_id as owner_id5_2_3_ from items_comment comment0_ inner join comments comment1_ on comment0_.comment_id=comment1_.id left outer join users user2_ on comment1_.author_id=user2_.id inner join items item3_ on comment1_.item_id=item3_.id where comment0_.item_id=? [42102-214]
+2023-03-20 19:14:11 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Таблица "ITEMS_COMMENT" не найдена
+Table "ITEMS_COMMENT" not found; SQL statement:
+select comment0_.item_id as item_id1_3_0_, comment0_.comment_id as comment_2_3_0_, comment1_.id as id1_1_1_, comment1_.author_id as author_i4_1_1_, comment1_.created as created2_1_1_, comment1_.item_id as item_id5_1_1_, comment1_.text as text3_1_1_, user2_.id as id1_4_2_, user2_.email as email2_4_2_, user2_.name as name3_4_2_, item3_.id as id1_2_3_, item3_.is_available as is_avail2_2_3_, item3_.description as descript3_2_3_, item3_.name as name4_2_3_, item3_.owner_id as owner_id5_2_3_ from items_comment comment0_ inner join comments comment1_ on comment0_.comment_id=comment1_.id left outer join users user2_ on comment1_.author_id=user2_.id inner join items item3_ on comment1_.item_id=item3_.id where comment0_.item_id=? [42102-214]
+2023-03-20 19:14:11 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Таблица "ITEMS_COMMENT" не найдена
+Table "ITEMS_COMMENT" not found; SQL statement:
+select comment0_.item_id as item_id1_3_0_, comment0_.comment_id as comment_2_3_0_, comment1_.id as id1_1_1_, comment1_.author_id as author_i4_1_1_, comment1_.created as created2_1_1_, comment1_.item_id as item_id5_1_1_, comment1_.text as text3_1_1_, user2_.id as id1_4_2_, user2_.email as email2_4_2_, user2_.name as name3_4_2_, item3_.id as id1_2_3_, item3_.is_available as is_avail2_2_3_, item3_.description as descript3_2_3_, item3_.name as name4_2_3_, item3_.owner_id as owner_id5_2_3_ from items_comment comment0_ inner join comments comment1_ on comment0_.comment_id=comment1_.id left outer join users user2_ on comment1_.author_id=user2_.id inner join items item3_ on comment1_.item_id=item3_.id where comment0_.item_id=? [42102-214]
+2023-03-20 19:14:11 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Таблица "ITEMS_COMMENT" не найдена
+Table "ITEMS_COMMENT" not found; SQL statement:
+select comment0_.item_id as item_id1_3_0_, comment0_.comment_id as comment_2_3_0_, comment1_.id as id1_1_1_, comment1_.author_id as author_i4_1_1_, comment1_.created as created2_1_1_, comment1_.item_id as item_id5_1_1_, comment1_.text as text3_1_1_, user2_.id as id1_4_2_, user2_.email as email2_4_2_, user2_.name as name3_4_2_, item3_.id as id1_2_3_, item3_.is_available as is_avail2_2_3_, item3_.description as descript3_2_3_, item3_.name as name4_2_3_, item3_.owner_id as owner_id5_2_3_ from items_comment comment0_ inner join comments comment1_ on comment0_.comment_id=comment1_.id left outer join users user2_ on comment1_.author_id=user2_.id inner join items item3_ on comment1_.item_id=item3_.id where comment0_.item_id=? [42102-214]
+2023-03-20 19:14:18 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Таблица "ITEMS_COMMENT" не найдена
+Table "ITEMS_COMMENT" not found; SQL statement:
+select comment0_.item_id as item_id1_3_0_, comment0_.comment_id as comment_2_3_0_, comment1_.id as id1_1_1_, comment1_.author_id as author_i4_1_1_, comment1_.created as created2_1_1_, comment1_.item_id as item_id5_1_1_, comment1_.text as text3_1_1_, user2_.id as id1_4_2_, user2_.email as email2_4_2_, user2_.name as name3_4_2_, item3_.id as id1_2_3_, item3_.is_available as is_avail2_2_3_, item3_.description as descript3_2_3_, item3_.name as name4_2_3_, item3_.owner_id as owner_id5_2_3_ from items_comment comment0_ inner join comments comment1_ on comment0_.comment_id=comment1_.id left outer join users user2_ on comment1_.author_id=user2_.id inner join items item3_ on comment1_.item_id=item3_.id where comment0_.item_id=? [42102-214]
+2023-03-20 19:14:18 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Таблица "ITEMS_COMMENT" не найдена
+Table "ITEMS_COMMENT" not found; SQL statement:
+select comment0_.item_id as item_id1_3_0_, comment0_.comment_id as comment_2_3_0_, comment1_.id as id1_1_1_, comment1_.author_id as author_i4_1_1_, comment1_.created as created2_1_1_, comment1_.item_id as item_id5_1_1_, comment1_.text as text3_1_1_, user2_.id as id1_4_2_, user2_.email as email2_4_2_, user2_.name as name3_4_2_, item3_.id as id1_2_3_, item3_.is_available as is_avail2_2_3_, item3_.description as descript3_2_3_, item3_.name as name4_2_3_, item3_.owner_id as owner_id5_2_3_ from items_comment comment0_ inner join comments comment1_ on comment0_.comment_id=comment1_.id left outer join users user2_ on comment1_.author_id=user2_.id inner join items item3_ on comment1_.item_id=item3_.id where comment0_.item_id=? [42102-214]
+2023-03-20 19:14:19 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Таблица "ITEMS_COMMENT" не найдена
+Table "ITEMS_COMMENT" not found; SQL statement:
+select comment0_.item_id as item_id1_3_0_, comment0_.comment_id as comment_2_3_0_, comment1_.id as id1_1_1_, comment1_.author_id as author_i4_1_1_, comment1_.created as created2_1_1_, comment1_.item_id as item_id5_1_1_, comment1_.text as text3_1_1_, user2_.id as id1_4_2_, user2_.email as email2_4_2_, user2_.name as name3_4_2_, item3_.id as id1_2_3_, item3_.is_available as is_avail2_2_3_, item3_.description as descript3_2_3_, item3_.name as name4_2_3_, item3_.owner_id as owner_id5_2_3_ from items_comment comment0_ inner join comments comment1_ on comment0_.comment_id=comment1_.id left outer join users user2_ on comment1_.author_id=user2_.id inner join items item3_ on comment1_.item_id=item3_.id where comment0_.item_id=? [42102-214]
+2023-03-20 19:14:19 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Таблица "ITEMS_COMMENT" не найдена
+Table "ITEMS_COMMENT" not found; SQL statement:
+select comment0_.item_id as item_id1_3_0_, comment0_.comment_id as comment_2_3_0_, comment1_.id as id1_1_1_, comment1_.author_id as author_i4_1_1_, comment1_.created as created2_1_1_, comment1_.item_id as item_id5_1_1_, comment1_.text as text3_1_1_, user2_.id as id1_4_2_, user2_.email as email2_4_2_, user2_.name as name3_4_2_, item3_.id as id1_2_3_, item3_.is_available as is_avail2_2_3_, item3_.description as descript3_2_3_, item3_.name as name4_2_3_, item3_.owner_id as owner_id5_2_3_ from items_comment comment0_ inner join comments comment1_ on comment0_.comment_id=comment1_.id left outer join users user2_ on comment1_.author_id=user2_.id inner join items item3_ on comment1_.item_id=item3_.id where comment0_.item_id=? [42102-214]
+2023-03-20 19:15:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Таблица "ITEMS_COMMENT" не найдена
+Table "ITEMS_COMMENT" not found; SQL statement:
+select comment0_.item_id as item_id1_3_0_, comment0_.comment_id as comment_2_3_0_, comment1_.id as id1_1_1_, comment1_.author_id as author_i4_1_1_, comment1_.created as created2_1_1_, comment1_.item_id as item_id5_1_1_, comment1_.text as text3_1_1_, user2_.id as id1_4_2_, user2_.email as email2_4_2_, user2_.name as name3_4_2_, item3_.id as id1_2_3_, item3_.is_available as is_avail2_2_3_, item3_.description as descript3_2_3_, item3_.name as name4_2_3_, item3_.owner_id as owner_id5_2_3_ from items_comment comment0_ inner join comments comment1_ on comment0_.comment_id=comment1_.id left outer join users user2_ on comment1_.author_id=user2_.id inner join items item3_ on comment1_.item_id=item3_.id where comment0_.item_id=? [42102-214]

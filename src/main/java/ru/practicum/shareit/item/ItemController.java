@@ -4,9 +4,11 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import ru.practicum.shareit.booking.BookingService;
 import ru.practicum.shareit.item.dto.*;
 import ru.practicum.shareit.item.dto.constraints.Create;
 import ru.practicum.shareit.item.dto.constraints.Update;
+import ru.practicum.shareit.item.model.Comment;
 import ru.practicum.shareit.item.model.Item;
 
 import javax.validation.constraints.NotBlank;
@@ -20,6 +22,8 @@ import java.util.stream.Collectors;
 public class ItemController {
 
     private final ItemService service;
+
+    private final BookingService bookingService;
 
     @PostMapping
     public ItemDto addItem(@RequestBody @Validated(Create.class) ItemDto itemDto,
@@ -45,9 +49,15 @@ public class ItemController {
     @GetMapping("/{id}")
     public ItemDto getItem(
             @PathVariable("id") long id,
-            @NotBlank @RequestHeader("X-Sharer-User-Id") long ownerId) {
-        log.info("Received GET id {} from {}", id, ownerId);
-        return ItemMapper.mapItemToResponse(service.getItemById(id));
+            @NotBlank @RequestHeader("X-Sharer-User-Id") long requesterId) {
+        log.info("Received GET id {} from {}", id, requesterId);
+        Item item = service.getItemById(id);
+        ItemDto itemDto = ItemMapper.mapItemToResponse(item);
+        if (requesterId == item.getOwnerId()) {
+            itemDto.setNextBooking(bookingService.getNextBooking(item.getId()));
+            itemDto.setLastBooking(bookingService.getLastBooking(item.getId()));
+        }
+        return itemDto;
     }
 
     @GetMapping()
@@ -67,5 +77,14 @@ public class ItemController {
         return service.searchForItemsByText(text).stream()
                 .map(ItemMapper::mapItemToResponse)
                 .collect(Collectors.toList());
+    }
+
+    @PostMapping("/{id}/comment")
+    public CommentDto addComment(@RequestBody CommentDto commentDto,
+                              @PathVariable("id") long itemId,
+                              @RequestHeader("X-Sharer-User-Id") long commentatorId) {
+        Comment comment = CommentMapper.mapToComment(commentDto, itemId, commentatorId);
+        log.info("Received POST CommentDto {} from {}", commentDto, commentatorId);
+        return CommentMapper.mapCommentToResponse(service.addCommment(comment));
     }
 }

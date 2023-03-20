@@ -5,6 +5,7 @@ import lombok.Builder;
 import lombok.Data;
 
 import javax.persistence.*;
+import java.util.List;
 import java.util.Objects;
 
 @Entity
@@ -28,6 +29,9 @@ public class Item {
 
     @Column(name = "is_available")
     private Boolean available;
+
+    @OneToMany(mappedBy = "item")
+    private List<Comment> comments;
 
     public Item() {
     }

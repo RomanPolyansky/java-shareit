@@ -44,6 +44,7 @@ CREATE TABLE IF NOT EXISTS `comments`
     `text`      varchar(255) NOT NULL,
     `author_id` INT          NOT NULL,
     `item_id`   INT          NOT NULL,
+    `created`   TIMESTAMP    NOT NULL,
     PRIMARY KEY (`id`),
     FOREIGN KEY (`author_id`) REFERENCES `users` (`id`),
     FOREIGN KEY (`item_id`) REFERENCES `items` (`id`)

@@ -2,18 +2,19 @@ package ru.practicum.shareit.booking;
 
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.core.types.dsl.Expressions;
+import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.querydsl.QSort;
 import org.springframework.stereotype.Service;
+import ru.practicum.shareit.booking.dto.BookingDtoResponse;
+import ru.practicum.shareit.booking.dto.BookingMapper;
 import ru.practicum.shareit.booking.model.Booking;
 import ru.practicum.shareit.booking.model.QBooking;
 import ru.practicum.shareit.item.ItemService;
 import ru.practicum.shareit.item.model.Item;
 import ru.practicum.shareit.user.UserService;
 import ru.practicum.shareit.user.model.User;
-
-//import practicum.shareit.booking.model.QBooking;
 
 import java.time.LocalDateTime;
 import java.util.NoSuchElementException;
@@ -26,6 +27,8 @@ public class BookingServiceImpl implements BookingService {
     private final BookingRepository repository;
     private final ItemService itemService;
     private final UserService userService;
+
+    private final JPAQueryFactory jpaQueryFactory;
 
 
     @Override
@@ -95,6 +98,28 @@ public class BookingServiceImpl implements BookingService {
         foundBookings.forEach(this::getFullBooking);
 
         return foundBookings;
+    }
+
+    @Override
+    public BookingDtoResponse getNextBooking(long itemId) {
+        Booking booking = jpaQueryFactory.selectFrom(QBooking.booking)
+                .where(QBooking.booking.item.id.eq(itemId))
+                .where(QBooking.booking.statusStr.eq(Status.APPROVED.toString()))
+                .where(QBooking.booking.startDate.after(LocalDateTime.now()))
+                .orderBy(QBooking.booking.startDate.asc())
+                .fetchFirst();
+        return booking == null ? null : BookingMapper.mapBookingToResponse(booking);
+    }
+
+    @Override
+    public BookingDtoResponse getLastBooking(long itemId) {
+        Booking booking = jpaQueryFactory.selectFrom(QBooking.booking)
+                .where(QBooking.booking.item.id.eq(itemId))
+                .where(QBooking.booking.statusStr.eq(Status.APPROVED.toString()))
+                .where(QBooking.booking.startDate.before(LocalDateTime.now()))
+                .orderBy(QBooking.booking.startDate.desc())
+                .fetchFirst();
+        return booking == null ? null : BookingMapper.mapBookingToResponse(booking);
     }
 
     private boolean isValidNewBooking(Booking booking) {
