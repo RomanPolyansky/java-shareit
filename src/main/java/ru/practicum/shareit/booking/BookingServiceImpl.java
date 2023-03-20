@@ -47,8 +47,10 @@ public class BookingServiceImpl implements BookingService {
 
         if (isApproved.equalsIgnoreCase("true")) {
             booking.setStatus(Status.APPROVED);
+            booking.setStatusStr(Status.APPROVED.toString());
         } else if (isApproved.equalsIgnoreCase("false")) {
             booking.setStatus(Status.REJECTED);
+            booking.setStatusStr(Status.REJECTED.toString());
         } else {
             throw new IllegalArgumentException("illegal status provided");
         }
@@ -71,18 +73,9 @@ public class BookingServiceImpl implements BookingService {
     @Override
     public Iterable<Booking> getAllBookingsOfUser(long requesterId, String state) {
         userService.getUserById(requesterId); //throws exception if not found
-
         Status status = getStatusFromState(state);
 
-        BooleanExpression eqStatus;
-        if (status.equals(Status.ALL)) {
-            eqStatus = Expressions.asBoolean(true).isTrue();
-        } else {
-            eqStatus = QBooking.booking.statusStr.eq(status.name());
-        }
-        log.info(eqStatus.toString());
-        log.info(status.toString());
-
+        BooleanExpression eqStatus = getStatus(status);
         BooleanExpression eqOwner = QBooking.booking.booker.id.eq(requesterId);
 
         Iterable<Booking> foundBookings = repository.findAll(eqStatus.and(eqOwner),
@@ -153,5 +146,35 @@ public class BookingServiceImpl implements BookingService {
     private boolean isOwnerOfItem(Booking booking, long requesterId) {
         Item item = itemService.getItemById(booking.getItem().getId());
         return item.getOwnerId() == requesterId;
+    }
+
+    private static BooleanExpression getStatus(Status status) {
+        BooleanExpression eqStatus;
+        switch (status) {
+            case ALL:
+                eqStatus = Expressions.asBoolean(true).isTrue();
+                break;
+            case CURRENT:
+                eqStatus = Expressions.asDateTime(LocalDateTime.now())
+                        .between(QBooking.booking.startDate, QBooking.booking.endDate)
+                        .and(QBooking.booking.statusStr.eq(Status.APPROVED.toString()));
+                break;
+            case PAST:
+                eqStatus = QBooking.booking.endDate.before(LocalDateTime.now())
+                        .and(QBooking.booking.statusStr.eq(Status.APPROVED.toString()));;
+                break;
+            case FUTURE:
+                eqStatus = QBooking.booking.startDate.after(LocalDateTime.now())
+                        .and(QBooking.booking.statusStr.eq(Status.APPROVED.toString()));;
+                break;
+            case REJECTED:
+            case WAITING:
+            case APPROVED:
+                eqStatus = QBooking.booking.statusStr.eq(status.toString());
+                break;
+            default:
+                throw new NoSuchElementException("Status filtering is not supported");
+        }
+        return eqStatus;
     }
 }

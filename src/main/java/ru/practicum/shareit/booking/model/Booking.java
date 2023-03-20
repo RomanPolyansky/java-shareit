@@ -69,6 +69,5 @@ public class Booking {
         } else {
             status = Status.CURRENT;
         }
-        statusStr = status.toString();
     }
 }
