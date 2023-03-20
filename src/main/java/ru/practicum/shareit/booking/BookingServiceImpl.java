@@ -16,7 +16,6 @@ import ru.practicum.shareit.user.model.User;
 //import practicum.shareit.booking.model.QBooking;
 
 import java.time.LocalDateTime;
-import java.util.List;
 import java.util.NoSuchElementException;
 
 @Slf4j
@@ -73,9 +72,7 @@ public class BookingServiceImpl implements BookingService {
     @Override
     public Iterable<Booking> getAllBookingsOfUser(long requesterId, String state) {
         userService.getUserById(requesterId); //throws exception if not found
-        Status status = getStatusFromState(state);
-
-        BooleanExpression eqStatus = getStatus(status);
+        BooleanExpression eqStatus = getStatusFilterFromStateStr(state);
         BooleanExpression eqOwner = QBooking.booking.booker.id.eq(requesterId);
 
         Iterable<Booking> foundBookings = repository.findAll(eqStatus.and(eqOwner),
@@ -87,8 +84,17 @@ public class BookingServiceImpl implements BookingService {
     }
 
     @Override
-    public List<Booking> getAllBookingsOfOwnerItems(long ownerId, String state) {
-        return null;
+    public Iterable<Booking> getAllBookingsOfOwnerItems(long ownerId, String state) {
+        userService.getUserById(ownerId); // throws exception if not exist
+        BooleanExpression eqStatus = getStatusFilterFromStateStr(state);
+        BooleanExpression eqOwner = QBooking.booking.item.ownerId.eq(ownerId);
+
+        Iterable<Booking> foundBookings = repository.findAll(eqStatus.and(eqOwner),
+                new QSort(QBooking.booking.startDate.asc()));
+
+        foundBookings.forEach(this::getFullBooking);
+
+        return foundBookings;
     }
 
     private boolean isValidNewBooking(Booking booking) {
@@ -148,7 +154,8 @@ public class BookingServiceImpl implements BookingService {
         return item.getOwnerId() == requesterId;
     }
 
-    private static BooleanExpression getStatus(Status status) {
+    private BooleanExpression getStatusFilterFromStateStr(String state) {
+        Status status = getStatusFromState(state);
         BooleanExpression eqStatus;
         switch (status) {
             case ALL:

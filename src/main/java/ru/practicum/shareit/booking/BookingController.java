@@ -11,9 +11,7 @@ import ru.practicum.shareit.booking.model.Booking;
 
 import javax.validation.constraints.NotBlank;
 import java.util.LinkedList;
-import java.util.List;
 import java.util.Queue;
-import java.util.stream.Collectors;
 
 /**
  * TODO Sprint add-bookings.
@@ -65,12 +63,15 @@ public class BookingController {
     }
 
     @GetMapping("/owner")
-    public List<BookingDtoResponse> getAllBookingsOfUserItems(
-            @NotBlank @RequestHeader("X-Sharer-User-Id") long ownerId,
+    public Queue<BookingDtoResponse> getAllBookingsOfUserItems(
+            @RequestHeader("X-Sharer-User-Id") @NotBlank long ownerId,
             @RequestParam(name = "state", required = false, defaultValue = "ALL") String state) {
         log.info("Received GET all from ownerId {} with state {}", ownerId, state);
-        return service.getAllBookingsOfOwnerItems(ownerId, state).stream()
-                .map(BookingMapper::mapBookingToResponse)
-                .collect(Collectors.toList());
+        Iterable<Booking> bookingList = service.getAllBookingsOfOwnerItems(ownerId, state);
+        Queue<BookingDtoResponse> bookingDtoResponseList = new LinkedList<>();
+        for (Booking booking : bookingList) {
+            bookingDtoResponseList.offer(BookingMapper.mapBookingToResponse(booking));
+        }
+        return bookingDtoResponseList;
     }
 }

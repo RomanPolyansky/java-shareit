@@ -59,15 +59,7 @@ public class Booking {
     }
 
     @PreUpdate
-    @PostLoad
     public void recalculateStatus() {
-        LocalDateTime now = LocalDateTime.now();
-        if (now.isBefore(startDate)) {
-            status = Status.FUTURE;
-        } else if (now.isAfter(endDate)) {
-            status = Status.PAST;
-        } else {
-            status = Status.CURRENT;
-        }
+        statusStr = status.toString();
     }
 }
