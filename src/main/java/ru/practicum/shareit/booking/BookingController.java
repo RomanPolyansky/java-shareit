@@ -69,7 +69,7 @@ public class BookingController {
             @NotBlank @RequestHeader("X-Sharer-User-Id") long ownerId,
             @RequestParam(name = "state", required = false, defaultValue = "ALL") String state) {
         log.info("Received GET all from ownerId {} with state {}", ownerId, state);
-        return service.getAllBookingsOfUserItems(ownerId, state).stream()
+        return service.getAllBookingsOfOwnerItems(ownerId, state).stream()
                 .map(BookingMapper::mapBookingToResponse)
                 .collect(Collectors.toList());
     }

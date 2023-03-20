@@ -31,8 +31,7 @@ public class BookingServiceImpl implements BookingService {
 
     @Override
     public Booking addBooking(Booking booking) {
-        log.info(booking.toString());
-        if (!isValidBooking(booking)) throw new NoSuchElementException("booking to add is not valid");
+        if (!isValidNewBooking(booking)) throw new NoSuchElementException("booking to add is not valid");
         Booking fullBooking = getFullBooking(booking);
         if (!fullBooking.getItem().getAvailable()) {
             throw new NoSuchElementException("item not available");
@@ -71,6 +70,8 @@ public class BookingServiceImpl implements BookingService {
 
     @Override
     public Iterable<Booking> getAllBookingsOfUser(long requesterId, String state) {
+        userService.getUserById(requesterId); //throws exception if not found
+
         Status status = getStatusFromState(state);
 
         BooleanExpression eqStatus;
@@ -93,14 +94,27 @@ public class BookingServiceImpl implements BookingService {
     }
 
     @Override
-    public List<Booking> getAllBookingsOfUserItems(long ownerId, String state) {
+    public List<Booking> getAllBookingsOfOwnerItems(long ownerId, String state) {
         return null;
     }
 
-    private boolean isValidBooking(Booking booking) {
+    private boolean isValidNewBooking(Booking booking) {
         if (booking.getStartDate().isBefore(LocalDateTime.now()) ||
                 booking.getEndDate().isBefore(LocalDateTime.now())) {
             throw new NoSuchElementException("start or end before now");
+        }
+        if (booking.getStartDate().isAfter(booking.getEndDate())) {
+            throw new NoSuchElementException("start is after end");
+        }
+        if (booking.getStartDate().isEqual(booking.getEndDate())) {
+            throw new NoSuchElementException("start is equal end");
+        }
+        return true;
+    }
+
+    private boolean isValidBooking(Booking booking) {
+        if (booking.getEndDate().isBefore(LocalDateTime.now())) {
+            throw new NoSuchElementException("end before now");
         }
         if (booking.getStartDate().isAfter(booking.getEndDate())) {
             throw new NoSuchElementException("start is after end");

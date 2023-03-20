@@ -13,5 +13,5 @@ public interface BookingService {
 
     Iterable<Booking> getAllBookingsOfUser(long bookerId, String state);
 
-    List<Booking> getAllBookingsOfUserItems(long ownerId, String state);
+    List<Booking> getAllBookingsOfOwnerItems(long ownerId, String state);
 }

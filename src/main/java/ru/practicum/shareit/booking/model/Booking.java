@@ -48,6 +48,7 @@ public class Booking {
     public Booking() {
         super();
         status = Status.WAITING;
+        statusStr = Status.WAITING.toString();
     }
 
     public Booking merge(Booking other) {
@@ -57,6 +58,7 @@ public class Booking {
         return this;
     }
 
+    @PreUpdate
     @PostLoad
     public void recalculateStatus() {
         LocalDateTime now = LocalDateTime.now();
@@ -67,5 +69,6 @@ public class Booking {
         } else {
             status = Status.CURRENT;
         }
+        statusStr = status.toString();
     }
 }
