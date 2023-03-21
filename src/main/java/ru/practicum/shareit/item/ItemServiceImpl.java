@@ -1,15 +1,15 @@
 package ru.practicum.shareit.item;
 
 import com.querydsl.jpa.impl.JPAQueryFactory;
-import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
-import org.springframework.web.server.ResponseStatusException;
 import ru.practicum.shareit.booking.BookingService;
 import ru.practicum.shareit.booking.Status;
 import ru.practicum.shareit.booking.model.Booking;
 import ru.practicum.shareit.booking.model.QBooking;
+import ru.practicum.shareit.exception.ElementNotFoundException;
+import ru.practicum.shareit.exception.NoAccessException;
 import ru.practicum.shareit.item.model.Comment;
 import ru.practicum.shareit.item.model.Item;
 import ru.practicum.shareit.item.model.QComment;
@@ -17,24 +17,32 @@ import ru.practicum.shareit.user.UserService;
 import ru.practicum.shareit.user.model.User;
 
 import java.time.LocalDateTime;
-import java.util.List;
-import java.util.NoSuchElementException;
-import java.util.Optional;
+import java.util.*;
 
 @Service
-@RequiredArgsConstructor
 public class ItemServiceImpl implements ItemService {
     private final ItemRepository repository;
+
     private final UserService userService;
     private final CommentRepository commentRepository;
     private final JPAQueryFactory jpaQueryFactory;
+    private final BookingService bookingService;
 
-    @Lazy private final BookingService bookingService;
+    @Autowired
+    public ItemServiceImpl(ItemRepository repository, UserService userService, CommentRepository commentRepository, JPAQueryFactory jpaQueryFactory,
+                           @Lazy BookingService bookingService) {
+        this.repository = repository;
+        this.userService = userService;
+        this.commentRepository = commentRepository;
+        this.jpaQueryFactory = jpaQueryFactory;
+        this.bookingService = bookingService;
+    }
+
 
     @Override
     public Item getItemById(long id, long requesterId) {
         Optional<Item> optionalItem = repository.findById(id);
-        if (optionalItem.isEmpty()) throw new NoSuchElementException("Item does not exist");
+        if (optionalItem.isEmpty()) throw new ElementNotFoundException("Item does not exist");
         Item item = optionalItem.get();
         item.setComments(fetchComments(item.getId()));
         fetchBookings(item, requesterId);
@@ -44,7 +52,7 @@ public class ItemServiceImpl implements ItemService {
     @Override
     public Item getItemByIdShort(long id) {
         Optional<Item> optionalItem = repository.findById(id);
-        if (optionalItem.isEmpty()) throw new NoSuchElementException("Item does not exist");
+        if (optionalItem.isEmpty()) throw new ElementNotFoundException("Item does not exist");
         Item item = optionalItem.get();
         return item;
     }
@@ -84,9 +92,7 @@ public class ItemServiceImpl implements ItemService {
     public void checkOwnership(Item item) {
         userService.getUserById(item.getOwnerId());
         if (repository.findById(item.getId()).isPresent() && item.getOwnerId() != getItemByIdShort(item.getId()).getOwnerId()) {
-            throw new ResponseStatusException(
-                    HttpStatus.NOT_FOUND, "User is not owner of this item"
-            );
+            throw new NoAccessException("Not an owner of an item");
         }
     }
 
@@ -118,7 +124,7 @@ public class ItemServiceImpl implements ItemService {
 
     @Override
     public List<Item> searchForItemsByText(String text) {
-        if (text.isBlank()) throw new NoSuchElementException("text cannot be empty");
+        if (text.isBlank()) return Collections.emptyList();
         return repository.searchForItemsByText(text);
     }
 

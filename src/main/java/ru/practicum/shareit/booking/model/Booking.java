@@ -58,8 +58,8 @@ public class Booking {
         return this;
     }
 
-    @PreUpdate
+    @PostLoad
     public void recalculateStatus() {
-        statusStr = status.toString();
+        status = Status.valueOf(statusStr);
     }
 }

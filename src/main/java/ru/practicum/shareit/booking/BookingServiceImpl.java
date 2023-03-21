@@ -9,13 +9,16 @@ import org.springframework.data.querydsl.QSort;
 import org.springframework.stereotype.Service;
 import ru.practicum.shareit.booking.model.Booking;
 import ru.practicum.shareit.booking.model.QBooking;
+import ru.practicum.shareit.exception.ElementNotFoundException;
+import ru.practicum.shareit.exception.IlligalRequestException;
+import ru.practicum.shareit.exception.UnsupportedStatusException;
 import ru.practicum.shareit.item.ItemService;
 import ru.practicum.shareit.item.model.Item;
 import ru.practicum.shareit.user.UserService;
 import ru.practicum.shareit.user.model.User;
 
 import java.time.LocalDateTime;
-import java.util.NoSuchElementException;
+import java.util.Optional;
 
 @Slf4j
 @Service
@@ -30,28 +33,39 @@ public class BookingServiceImpl implements BookingService {
 
     @Override
     public Booking addBooking(Booking booking) {
-        if (!isValidNewBooking(booking)) throw new NoSuchElementException("booking to add is not valid");
+        if (!isValidNewBooking(booking)) throw new ElementNotFoundException("booking to add is not valid");
         Booking fullBooking = getFullBooking(booking);
         if (!fullBooking.getItem().getAvailable()) {
-            throw new NoSuchElementException("item not available");
+            throw new IlligalRequestException("item not available");
+        }
+        if (fullBooking.getItem().getOwnerId() == booking.getBooker().getId()) {
+            throw new ElementNotFoundException("Cannot book owned item");
         }
         return repository.save(fullBooking);
     }
 
     @Override
     public Booking replyBooking(long bookingId, String isApproved, long requesterId) {
-        Booking booking = repository.getById(bookingId);
-        if (!isValidBooking(booking)) throw new NoSuchElementException("booking to reply is not valid");
-        if (!isOwnerOfItem(booking, requesterId)) throw new NoSuchElementException("is not owner of booking to reply");
-
+        boolean toApprove;
         if (isApproved.equalsIgnoreCase("true")) {
-            booking.setStatus(Status.APPROVED);
-            booking.setStatusStr(Status.APPROVED.toString());
+            toApprove = true;
         } else if (isApproved.equalsIgnoreCase("false")) {
-            booking.setStatus(Status.REJECTED);
-            booking.setStatusStr(Status.REJECTED.toString());
+            toApprove = false;
         } else {
             throw new IllegalArgumentException("illegal status provided");
+        }
+
+        Booking booking = repository.getById(bookingId);
+        if (!isValidBookingReply(booking)) throw new ElementNotFoundException("booking to reply is not valid");
+        if (!isOwnerOfItem(booking, requesterId)) throw new ElementNotFoundException("is not owner of booking to reply");
+        if (toApprove && booking.getStatus().equals(Status.APPROVED)) throw new IlligalRequestException("Can not approve already approved");
+
+        if (toApprove) {
+            booking.setStatus(Status.APPROVED);
+            booking.setStatusStr(Status.APPROVED.toString());
+        } else {
+            booking.setStatus(Status.REJECTED);
+            booking.setStatusStr(Status.REJECTED.toString());
         }
 
         return repository.save(getFullBooking(booking));
@@ -65,7 +79,7 @@ public class BookingServiceImpl implements BookingService {
         } else if (isOwnerOfItem(bookingFromRepo, requesterId)) {
             return bookingFromRepo;
         } else {
-            throw new NoSuchElementException("No access to this booking");
+            throw new ElementNotFoundException("No access to this booking");
         }
     }
 
@@ -76,7 +90,7 @@ public class BookingServiceImpl implements BookingService {
         BooleanExpression eqOwner = QBooking.booking.booker.id.eq(requesterId);
 
         Iterable<Booking> foundBookings = repository.findAll(eqStatus.and(eqOwner),
-                new QSort(QBooking.booking.startDate.asc()));
+                new QSort(QBooking.booking.startDate.desc()));
 
         foundBookings.forEach(this::getFullBooking);
 
@@ -90,7 +104,7 @@ public class BookingServiceImpl implements BookingService {
         BooleanExpression eqOwner = QBooking.booking.item.ownerId.eq(ownerId);
 
         Iterable<Booking> foundBookings = repository.findAll(eqStatus.and(eqOwner),
-                new QSort(QBooking.booking.startDate.asc()));
+                new QSort(QBooking.booking.startDate.desc()));
 
         foundBookings.forEach(this::getFullBooking);
 
@@ -120,28 +134,31 @@ public class BookingServiceImpl implements BookingService {
     }
 
     private boolean isValidNewBooking(Booking booking) {
+        if (booking.getStartDate() == null || booking.getEndDate() == null) {
+            throw new IlligalRequestException("No start date or end date");
+        }
         if (booking.getStartDate().isBefore(LocalDateTime.now()) ||
                 booking.getEndDate().isBefore(LocalDateTime.now())) {
-            throw new NoSuchElementException("start or end before now");
+            throw new IlligalRequestException("start or end before now");
         }
         if (booking.getStartDate().isAfter(booking.getEndDate())) {
-            throw new NoSuchElementException("start is after end");
+            throw new IlligalRequestException("start is after end");
         }
         if (booking.getStartDate().isEqual(booking.getEndDate())) {
-            throw new NoSuchElementException("start is equal end");
+            throw new IlligalRequestException("start is equal end");
         }
         return true;
     }
 
-    private boolean isValidBooking(Booking booking) {
+    private boolean isValidBookingReply(Booking booking) {
         if (booking.getEndDate().isBefore(LocalDateTime.now())) {
-            throw new NoSuchElementException("end before now");
+            throw new IlligalRequestException("end before now");
         }
         if (booking.getStartDate().isAfter(booking.getEndDate())) {
-            throw new NoSuchElementException("start is after end");
+            throw new IlligalRequestException("start is after end");
         }
         if (booking.getStartDate().isEqual(booking.getEndDate())) {
-            throw new NoSuchElementException("start is equal end");
+            throw new IlligalRequestException("start is equal end");
         }
         return true;
     }
@@ -158,12 +175,16 @@ public class BookingServiceImpl implements BookingService {
         try {
             return Status.valueOf(state.toUpperCase());
         } catch (IllegalArgumentException e) {
-            throw new IllegalArgumentException("wrong status provided");
+            throw new UnsupportedStatusException("Unknown state: " + state);
         }
     }
 
     private Booking getFullBooking(long bookingId) {
-        Booking booking = repository.getById(bookingId);
+        Optional<Booking> optionalBooking = repository.findById(bookingId);
+        if (optionalBooking.isEmpty()) {
+            throw new ElementNotFoundException("Booking with this id not found");
+        }
+        Booking booking = optionalBooking.get();
         User booker = userService.getUserById(booking.getBooker().getId());
         booking.setBooker(booker);
         Item item = itemService.getItemByIdShort(booking.getItem().getId());
@@ -172,7 +193,7 @@ public class BookingServiceImpl implements BookingService {
     }
 
     private boolean isOwnerOfItem(Booking booking, long requesterId) {
-        Item item = itemService.getItemById(booking.getItem().getId(), requesterId);
+        Item item = itemService.getItemByIdShort(booking.getItem().getId());
         return item.getOwnerId() == requesterId;
     }
 
@@ -185,16 +206,13 @@ public class BookingServiceImpl implements BookingService {
                 break;
             case CURRENT:
                 eqStatus = Expressions.asDateTime(LocalDateTime.now())
-                        .between(QBooking.booking.startDate, QBooking.booking.endDate)
-                        .and(QBooking.booking.statusStr.eq(Status.APPROVED.toString()));
+                        .between(QBooking.booking.startDate, QBooking.booking.endDate);
                 break;
             case PAST:
-                eqStatus = QBooking.booking.endDate.before(LocalDateTime.now())
-                        .and(QBooking.booking.statusStr.eq(Status.APPROVED.toString()));;
+                eqStatus = QBooking.booking.endDate.before(LocalDateTime.now());
                 break;
             case FUTURE:
-                eqStatus = QBooking.booking.startDate.after(LocalDateTime.now())
-                        .and(QBooking.booking.statusStr.eq(Status.APPROVED.toString()));;
+                eqStatus = QBooking.booking.startDate.after(LocalDateTime.now());
                 break;
             case REJECTED:
             case WAITING:
@@ -202,7 +220,7 @@ public class BookingServiceImpl implements BookingService {
                 eqStatus = QBooking.booking.statusStr.eq(status.toString());
                 break;
             default:
-                throw new NoSuchElementException("Status filtering is not supported");
+                throw new UnsupportedStatusException("Unknown state: UNSUPPORTED_STATUS");
         }
         return eqStatus;
     }

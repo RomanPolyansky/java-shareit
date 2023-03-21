@@ -2,12 +2,15 @@ package ru.practicum.shareit.booking;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import ru.practicum.shareit.booking.dto.BookingDto;
 import ru.practicum.shareit.booking.dto.BookingDtoResponse;
 import ru.practicum.shareit.booking.dto.BookingMapper;
 import ru.practicum.shareit.booking.model.Booking;
+import ru.practicum.shareit.exception.UnsupportedStatusException;
 
 import javax.validation.constraints.NotBlank;
 import java.util.LinkedList;
@@ -20,6 +23,7 @@ import java.util.Queue;
 @RestController
 @RequestMapping(path = "/bookings")
 @RequiredArgsConstructor
+@RestControllerAdvice
 public class BookingController {
     private final BookingService service;
 
