@@ -1,5 +1,6 @@
 package ru.practicum.shareit.item.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -25,6 +26,7 @@ public class Comment {
     private LocalDateTime created;
 
     @ManyToOne
+    //@JsonBackReference
     @JoinColumn(name = "item_id", nullable = false)
     private Item item;
 

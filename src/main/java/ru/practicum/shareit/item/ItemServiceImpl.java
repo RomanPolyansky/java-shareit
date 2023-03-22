@@ -6,6 +6,7 @@ import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 import ru.practicum.shareit.booking.BookingService;
 import ru.practicum.shareit.booking.Status;
+import ru.practicum.shareit.booking.dto.BookingMapper;
 import ru.practicum.shareit.booking.model.Booking;
 import ru.practicum.shareit.booking.model.QBooking;
 import ru.practicum.shareit.exception.ElementNotFoundException;
@@ -91,7 +92,7 @@ public class ItemServiceImpl implements ItemService {
     @Override
     public void checkOwnership(Item item) {
         userService.getUserById(item.getOwnerId());
-        if (repository.findById(item.getId()).isPresent() && item.getOwnerId() != getItemByIdShort(item.getId()).getOwnerId()) {
+        if (repository.findById(item.getId()).isPresent() && item.getOwnerId() != repository.getById(item.getId()).getOwnerId()) {
             throw new NoAccessException("Not an owner of an item");
         }
     }

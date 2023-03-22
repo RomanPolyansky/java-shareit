@@ -75,7 +75,7 @@ public class ItemController {
     }
 
     @PostMapping("/{id}/comment")
-    public CommentDto addComment(@RequestBody CommentDto commentDto,
+    public CommentDto addComment(@RequestBody @Validated CommentDto commentDto,
                               @PathVariable("id") long itemId,
                               @RequestHeader("X-Sharer-User-Id") long commentatorId) {
         Comment comment = CommentMapper.mapToComment(commentDto, itemId, commentatorId);

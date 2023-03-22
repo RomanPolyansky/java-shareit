@@ -1,6 +1,9 @@
 package ru.practicum.shareit.item.dto;
 
+import ru.practicum.shareit.booking.dto.BookingMapper;
 import ru.practicum.shareit.item.model.Item;
+
+import java.util.stream.Collectors;
 
 public class ItemMapper {
 
@@ -18,7 +21,17 @@ public class ItemMapper {
         itemDto.setName(item.getName());
         itemDto.setDescription(item.getDescription());
         itemDto.setAvailable(item.getAvailable());
-        itemDto.setComments(item.getComments());
+        if (!item.getComments().isEmpty())
+            itemDto.setComments(item.getComments()
+                    .stream()
+                    .map(CommentMapper::mapCommentToResponse)
+                    .collect(Collectors.toList()));
+        if (item.getNextBooking() != null )
+            itemDto.setNextBooking(BookingMapper
+                    .mapBookingToResponse(item.getNextBooking()));
+        if (item.getLastBooking() != null )
+            itemDto.setLastBooking(BookingMapper
+                    .mapBookingToResponse(item.getLastBooking()));
         return itemDto;
     }
 }
