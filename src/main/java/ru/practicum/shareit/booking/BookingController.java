@@ -37,7 +37,7 @@ public class BookingController {
     public BookingDtoResponse replyBooking(@RequestParam (name = "approved") String isApproved,
                                            @NotBlank @PathVariable("id") long bookingId,
                                            @NotBlank @RequestHeader("X-Sharer-User-Id") long requesterId) {
-        log.info("Received Patch reply BookingDto {} from {}", requesterId);
+        log.info("Received Patch reply bookingId {} from {}", bookingId, requesterId);
 
         return BookingMapper.mapBookingToResponse(service.replyBooking(bookingId, isApproved, requesterId));
     }

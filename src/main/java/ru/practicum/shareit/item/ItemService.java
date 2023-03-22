@@ -57,7 +57,7 @@ public class ItemService {
         }
     }
 
-    public Comment addCommment(Comment comment) {
+    public Comment addComment(Comment comment) {
         Item item = repository.getById(comment.getItem().getId());
         User booker = getBookerOfItem(item, comment.getAuthor().getId());
 

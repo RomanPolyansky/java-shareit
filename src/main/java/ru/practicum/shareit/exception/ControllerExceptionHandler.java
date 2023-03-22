@@ -14,11 +14,10 @@ public class ControllerExceptionHandler {
     @ExceptionHandler(UnsupportedStatusException.class)
     @ResponseStatus(value = HttpStatus.INTERNAL_SERVER_ERROR)
     public ErrorMessage resourceNotFoundException(UnsupportedStatusException e, WebRequest request) {
-        ErrorMessage message = new ErrorMessage(
+        return new ErrorMessage(
                 HttpStatus.INTERNAL_SERVER_ERROR.value(),
                 new Date(),
                 e.getMessage(),
                 request.getDescription(false));
-        return message;
     }
 }

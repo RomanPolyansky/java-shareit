@@ -100,6 +100,6 @@ public class ItemController {
                               @RequestHeader("X-Sharer-User-Id") long commentatorId) {
         Comment comment = CommentMapper.mapToComment(commentDto, itemId, commentatorId);
         log.info("Received POST CommentDto {} from {}", commentDto, commentatorId);
-        return CommentMapper.mapCommentToResponse(service.addCommment(comment));
+        return CommentMapper.mapCommentToResponse(service.addComment(comment));
     }
 }

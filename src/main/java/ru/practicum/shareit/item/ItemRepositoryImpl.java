@@ -17,11 +17,10 @@ public class ItemRepositoryImpl implements ItemRepositoryCustom {
     @Override
     public List<Item> searchForItemsByText(String text) {
         List<Item> items = itemRepository.findAll();
-        List<Item> matchingItems = items.stream()
+        return items.stream()
                 .filter(i -> i.getDescription().toLowerCase().contains(text.toLowerCase()) ||
                               i.getName().toLowerCase().contains(text.toLowerCase()))
-                .filter(i -> i.getAvailable())
+                .filter(Item::getAvailable)
                 .collect(Collectors.toList());
-        return matchingItems;
     }
 }
