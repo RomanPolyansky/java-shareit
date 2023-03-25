@@ -1,58 +1,43 @@
 package ru.practicum.shareit.user;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import ru.practicum.shareit.exception.ElementNotFoundException;
 import ru.practicum.shareit.user.model.User;
 
 import java.util.List;
-import java.util.NoSuchElementException;
 import java.util.Optional;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class UserServiceImpl implements UserService {
 
-    private final UserStorage userStorage;
-
-    public boolean isValidUser(User receivedUser) {
-        for (User user : userStorage.getAll()) {
-            if (user.getEmail().equals(receivedUser.getEmail())) return false;
-        }
-        return true;
-    }
+    private final UserRepository repository;
 
     public User getUserById(long id) {
-        Optional<User> optionalUser = userStorage.getUserById(id);
+        Optional<User> optionalUser = repository.findById(id);
         return optionalUser.orElseThrow(
-                () -> new NoSuchElementException("user is not found")
+                () -> new ElementNotFoundException("user is not found")
         );
     }
 
     public List<User> getAll() {
-        return userStorage.getAll();
+        return repository.findAll();
     }
 
     public User addUser(User user) {
-        if (!isValidUser(user)) throw new NoSuchElementException("user to add is not valid");
-        return userStorage.addUser(user);
+        return repository.save(user);
     }
 
     public User changeUser(User user) {
-        if (!exists(user)) throw new NoSuchElementException("user to change is not found");
-        if (!isValidUser(user)) throw new NoSuchElementException("user to change is not valid");
-        return userStorage.changeUser(user);
+        log.info(user.toString());
+        User mergedUser = repository.getById(user.getId()).merge(user);
+        return repository.save(mergedUser);
     }
 
     public void deleteUser(long id) {
-        if (!exists(id)) throw new NoSuchElementException("user to delete is not found");
-        userStorage.deleteUser(id);
-    }
-
-    public boolean exists(long id) {
-        return userStorage.getUserById(id).isPresent();
-    }
-
-    public boolean exists(User user) {
-        return userStorage.getUserById(user.getId()) != null;
+        repository.deleteById(id);
     }
 }

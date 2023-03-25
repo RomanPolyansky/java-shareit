@@ -4,9 +4,12 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import ru.practicum.shareit.booking.BookingService;
+import ru.practicum.shareit.booking.dto.BookingShortDto;
 import ru.practicum.shareit.item.dto.*;
 import ru.practicum.shareit.item.dto.constraints.Create;
 import ru.practicum.shareit.item.dto.constraints.Update;
+import ru.practicum.shareit.item.model.Comment;
 import ru.practicum.shareit.item.model.Item;
 
 import javax.validation.constraints.NotBlank;
@@ -20,6 +23,8 @@ import java.util.stream.Collectors;
 public class ItemController {
 
     private final ItemService service;
+
+    private final BookingService bookingService;
 
     @PostMapping
     public ItemDto addItem(@RequestBody @Validated(Create.class) ItemDto itemDto,
@@ -45,9 +50,25 @@ public class ItemController {
     @GetMapping("/{id}")
     public ItemDto getItem(
             @PathVariable("id") long id,
-            @NotBlank @RequestHeader("X-Sharer-User-Id") long ownerId) {
-        log.info("Received GET id {} from {}", id, ownerId);
-        return ItemMapper.mapItemToResponse(service.getItemById(id));
+            @NotBlank @RequestHeader("X-Sharer-User-Id") long requesterId) {
+        log.info("Received GET id {} from {}", id, requesterId);
+        Item item = service.getItemById(id);
+        ItemDto itemDto = ItemMapper.mapItemToResponse(item);
+
+        List<Comment> comments = service.fetchComments(item.getId());
+        List<CommentDto> commentsDto = comments.stream()
+                .map(CommentMapper::mapCommentToResponse)
+                .collect(Collectors.toList());
+        itemDto.setComments(commentsDto);
+
+        if (item.getOwnerId() == requesterId) {
+            BookingShortDto nextBooking = bookingService.getNextBooking(item.getId());
+            BookingShortDto lastBooking = bookingService.getLastBooking(item.getId());
+            itemDto.setNextBooking(nextBooking);
+            itemDto.setLastBooking(lastBooking);
+        }
+
+        return itemDto;
     }
 
     @GetMapping()
@@ -56,6 +77,10 @@ public class ItemController {
         log.info("Received GET id all from {}", ownerId);
         return service.getItemsByOwnerId(ownerId).stream()
                 .map(ItemMapper::mapItemToResponse)
+                .peek(itemDto -> {
+                    itemDto.setNextBooking(bookingService.getNextBooking(itemDto.getId()));
+                    itemDto.setLastBooking(bookingService.getLastBooking(itemDto.getId()));
+                })
                 .collect(Collectors.toList());
     }
 
@@ -67,5 +92,14 @@ public class ItemController {
         return service.searchForItemsByText(text).stream()
                 .map(ItemMapper::mapItemToResponse)
                 .collect(Collectors.toList());
+    }
+
+    @PostMapping("/{id}/comment")
+    public CommentDto addComment(@RequestBody @Validated(Create.class) CommentDto commentDto,
+                              @PathVariable("id") long itemId,
+                              @RequestHeader("X-Sharer-User-Id") long commentatorId) {
+        Comment comment = CommentMapper.mapToComment(commentDto, itemId, commentatorId);
+        log.info("Received POST CommentDto {} from {}", commentDto, commentatorId);
+        return CommentMapper.mapCommentToResponse(service.addComment(comment));
     }
 }
