@@ -50,14 +50,6 @@ public class Booking {
         status = Status.WAITING;
         statusStr = Status.WAITING.toString();
     }
-
-    public Booking merge(Booking other) {
-        if (other.startDate != null) startDate = other.startDate;
-        if (other.endDate != null) endDate = other.endDate;
-        if (other.status != null) status = other.status;
-        return this;
-    }
-
     @PostLoad
     public void recalculateStatus() {
         status = Status.valueOf(statusStr);
