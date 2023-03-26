@@ -5,11 +5,11 @@ import com.querydsl.core.types.dsl.Expressions;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.data.querydsl.QSort;
 import org.springframework.stereotype.Service;
 import ru.practicum.shareit.booking.dto.BookingShortDto;
 import ru.practicum.shareit.booking.model.Booking;
 import ru.practicum.shareit.booking.model.QBooking;
+import ru.practicum.shareit.configuration.PagesConfig;
 import ru.practicum.shareit.exception.ElementNotFoundException;
 import ru.practicum.shareit.exception.IlligalRequestException;
 import ru.practicum.shareit.exception.UnsupportedStatusException;
@@ -81,26 +81,38 @@ public class BookingService {
         }
     }
 
-    public Iterable<Booking> getAllBookingsOfUser(long requesterId, String state) {
+    public Iterable<Booking> getAllBookingsOfUser(long requesterId, String state,
+                                                  Optional<Integer> from, Optional<Integer> size) {
         userService.getUserById(requesterId); //throws exception if not found
         BooleanExpression eqStatus = getStatusFilterFromStateStr(state);
         BooleanExpression eqOwner = QBooking.booking.booker.id.eq(requesterId);
 
-        Iterable<Booking> foundBookings = repository.findAll(eqStatus.and(eqOwner),
-                new QSort(QBooking.booking.startDate.desc()));
+        Iterable<Booking> foundBookings = jpaQueryFactory.selectFrom(QBooking.booking)
+                .where(eqStatus)
+                .where(eqOwner)
+                .orderBy(QBooking.booking.startDate.desc())
+                .offset(from.orElse(0))
+                .limit(size.orElse(PagesConfig.DEFAULT_SIZE))
+                .fetch();
 
         foundBookings.forEach(this::getFullBooking);
 
         return foundBookings;
     }
 
-    public Iterable<Booking> getAllBookingsOfOwnerItems(long ownerId, String state) {
+    public Iterable<Booking> getAllBookingsOfOwnerItems(long ownerId, String state,
+                                                        Optional<Integer> from, Optional<Integer> size) {
         userService.getUserById(ownerId); // throws exception if not exist
         BooleanExpression eqStatus = getStatusFilterFromStateStr(state);
         BooleanExpression eqOwner = QBooking.booking.item.ownerId.eq(ownerId);
 
-        Iterable<Booking> foundBookings = repository.findAll(eqStatus.and(eqOwner),
-                new QSort(QBooking.booking.startDate.desc()));
+        Iterable<Booking> foundBookings = jpaQueryFactory.selectFrom(QBooking.booking)
+                .where(eqStatus)
+                .where(eqOwner)
+                .orderBy(QBooking.booking.startDate.desc())
+                .offset(from.orElse(0))
+                .limit(size.orElse(PagesConfig.DEFAULT_SIZE))
+                .fetch();
 
         foundBookings.forEach(this::getFullBooking);
 

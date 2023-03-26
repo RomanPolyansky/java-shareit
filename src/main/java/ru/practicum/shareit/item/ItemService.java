@@ -2,19 +2,25 @@ package ru.practicum.shareit.item;
 
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.AllArgsConstructor;
+import org.apache.commons.collections4.IterableUtils;
+import org.springframework.data.querydsl.QSort;
 import org.springframework.stereotype.Service;
 import ru.practicum.shareit.booking.Status;
 import ru.practicum.shareit.booking.model.Booking;
 import ru.practicum.shareit.booking.model.QBooking;
+import ru.practicum.shareit.configuration.PagesConfig;
 import ru.practicum.shareit.exception.ElementNotFoundException;
 import ru.practicum.shareit.exception.IlligalRequestException;
 import ru.practicum.shareit.exception.NoAccessException;
 import ru.practicum.shareit.item.model.Comment;
 import ru.practicum.shareit.item.model.Item;
 import ru.practicum.shareit.item.model.QComment;
+import ru.practicum.shareit.item.model.QItem;
 import ru.practicum.shareit.user.UserService;
 import ru.practicum.shareit.user.model.User;
 
+import javax.validation.constraints.Positive;
+import javax.validation.constraints.PositiveOrZero;
 import java.time.LocalDateTime;
 import java.util.*;
 
@@ -25,7 +31,6 @@ public class ItemService {
     private final UserService userService;
     private final CommentRepository commentRepository;
     private final JPAQueryFactory jpaQueryFactory;
-
 
     public Item getItemById(long id) {
         return repository.findById(id).orElseThrow(() -> new ElementNotFoundException("Item does not exist"));
@@ -75,13 +80,25 @@ public class ItemService {
                 .fetch();
     }
 
-    public List<Item> getItemsByOwnerId(long id) {
-        return repository.getItemsByOwnerId(id);
+    public List<Item> getItemsByOwnerId(long ownerId, Optional<Integer> from, Optional<Integer> size) {
+        return IterableUtils.toList(jpaQueryFactory.selectFrom(QItem.item)
+                .where(QItem.item.ownerId.eq(ownerId))
+                .orderBy(QItem.item.id.asc())
+                .offset(from.orElse(0))
+                .limit(size.orElse(PagesConfig.DEFAULT_SIZE))
+                .fetch());
     }
 
-    public List<Item> searchForItemsByText(String text) {
+    public List<Item> searchForItemsByText(String text, @PositiveOrZero Optional<Integer> from, @Positive Optional<Integer> size) {
         if (text.isBlank()) return Collections.emptyList();
-        return repository.searchForItemsByText(text);
+        return IterableUtils.toList(jpaQueryFactory.selectFrom(QItem.item)
+                .where(QItem.item.description.containsIgnoreCase(text)
+                        .or(QItem.item.name.containsIgnoreCase(text)))
+                .where(QItem.item.available.eq(true))
+                .orderBy(QItem.item.id.asc())
+                .offset(from.orElse(0))
+                .limit(size.orElse(PagesConfig.DEFAULT_SIZE))
+                .fetch());
     }
 
     private User getBookerOfItem(Item item, long bookerId) {
@@ -96,5 +113,12 @@ public class ItemService {
             throw new IlligalRequestException("User did not book this item");
         }
         return matchingBooking.getBooker();
+    }
+
+    public List<Item> getItemsByRequestId(long requestId) {
+        return IterableUtils.toList(
+                repository.findAll(
+                    QItem.item.itemRequest.id.eq(requestId),
+                    new QSort(QItem.item.itemRequest.created.desc())));
     }
 }

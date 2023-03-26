@@ -10,7 +10,10 @@ import ru.practicum.shareit.booking.dto.BookingMapper;
 import ru.practicum.shareit.booking.model.Booking;
 
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Positive;
+import javax.validation.constraints.PositiveOrZero;
 import java.util.LinkedList;
+import java.util.Optional;
 import java.util.Queue;
 
 /**
@@ -53,9 +56,12 @@ public class BookingController {
     @GetMapping()
     public Queue<BookingDtoResponse> getAllBookingsOfUser(
             @RequestHeader("X-Sharer-User-Id") @NotBlank long bookerId,
-            @RequestParam(name = "state", required = false, defaultValue = "ALL") String state) {
+            @RequestParam(name = "state", required = false, defaultValue = "ALL") String state,
+            @PositiveOrZero @RequestParam(value = "from", required = false)
+            Optional<Integer> from,
+            @Positive @RequestParam(value = "size", required = false) Optional<Integer> size) {
         log.info("Received GET all from bookerId {} with state {}", bookerId, state);
-        Iterable<Booking> bookingList = service.getAllBookingsOfUser(bookerId, state);
+        Iterable<Booking> bookingList = service.getAllBookingsOfUser(bookerId, state, from, size);
         Queue<BookingDtoResponse> bookingDtoResponseList = new LinkedList<>();
         for (Booking booking : bookingList) {
             bookingDtoResponseList.offer(BookingMapper.mapBookingToResponse(booking));
@@ -66,9 +72,12 @@ public class BookingController {
     @GetMapping("/owner")
     public Queue<BookingDtoResponse> getAllBookingsOfUserItems(
             @RequestHeader("X-Sharer-User-Id") @NotBlank long ownerId,
-            @RequestParam(name = "state", required = false, defaultValue = "ALL") String state) {
+            @RequestParam(name = "state", required = false, defaultValue = "ALL") String state,
+            @PositiveOrZero @RequestParam(value = "from", required = false)
+            Optional<Integer> from,
+            @Positive @RequestParam(value = "size", required = false) Optional<Integer> size) {
         log.info("Received GET all from ownerId {} with state {}", ownerId, state);
-        Iterable<Booking> bookingList = service.getAllBookingsOfOwnerItems(ownerId, state);
+        Iterable<Booking> bookingList = service.getAllBookingsOfOwnerItems(ownerId, state, from, size);
         Queue<BookingDtoResponse> bookingDtoResponseList = new LinkedList<>();
         for (Booking booking : bookingList) {
             bookingDtoResponseList.offer(BookingMapper.mapBookingToResponse(booking));

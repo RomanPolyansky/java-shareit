@@ -13,7 +13,10 @@ import ru.practicum.shareit.item.model.Comment;
 import ru.practicum.shareit.item.model.Item;
 
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Positive;
+import javax.validation.constraints.PositiveOrZero;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Slf4j
@@ -25,10 +28,12 @@ public class ItemController {
     private final ItemService service;
 
     private final BookingService bookingService;
+    
+    private final String HEADER = "X-Sharer-User-Id";
 
     @PostMapping
     public ItemDto addItem(@RequestBody @Validated(Create.class) ItemDto itemDto,
-                           @RequestHeader("X-Sharer-User-Id") long ownerId) {
+                           @RequestHeader(HEADER) long ownerId) {
         Item item = ItemMapper.mapToItem(itemDto);
         item.setOwnerId(ownerId);
         log.info("Received POST ItemDto {} from {}", itemDto, ownerId);
@@ -39,7 +44,7 @@ public class ItemController {
     public ItemDto updateItem(
             @PathVariable("id") long id,
             @RequestBody @Validated(Update.class) ItemDto itemDto,
-            @NotBlank @RequestHeader("X-Sharer-User-Id") long ownerId) {
+            @NotBlank @RequestHeader(HEADER) long ownerId) {
         Item item = ItemMapper.mapToItem(itemDto);
         item.setId(id);
         item.setOwnerId(ownerId);
@@ -50,7 +55,7 @@ public class ItemController {
     @GetMapping("/{id}")
     public ItemDto getItem(
             @PathVariable("id") long id,
-            @NotBlank @RequestHeader("X-Sharer-User-Id") long requesterId) {
+            @NotBlank @RequestHeader(HEADER) long requesterId) {
         log.info("Received GET id {} from {}", id, requesterId);
         Item item = service.getItemById(id);
         ItemDto itemDto = ItemMapper.mapItemToResponse(item);
@@ -73,9 +78,12 @@ public class ItemController {
 
     @GetMapping()
     public List<ItemDto> getAllItemsOfOwner(
-            @NotBlank @RequestHeader("X-Sharer-User-Id") long ownerId) {
+            @NotBlank @RequestHeader(HEADER) long ownerId,
+            @PositiveOrZero @RequestParam(value = "from", required = false)
+            Optional<Integer> from,
+            @Positive @RequestParam(value = "size", required = false) Optional<Integer> size) {
         log.info("Received GET id all from {}", ownerId);
-        return service.getItemsByOwnerId(ownerId).stream()
+        return service.getItemsByOwnerId(ownerId, from, size).stream()
                 .map(ItemMapper::mapItemToResponse)
                 .peek(itemDto -> {
                     itemDto.setNextBooking(bookingService.getNextBooking(itemDto.getId()));
@@ -87,9 +95,12 @@ public class ItemController {
     @GetMapping("/search")
     public List<ItemDto> searchByName(
             @RequestParam (name = "text") String text,
-            @RequestHeader("X-Sharer-User-Id") @NotBlank long ownerId) {
+            @RequestHeader(HEADER) @NotBlank long ownerId,
+            @PositiveOrZero @RequestParam(value = "from", required = false)
+            Optional<Integer> from,
+            @Positive @RequestParam(value = "size", required = false) Optional<Integer> size) {
         log.info("Received GET search of {} from {}", text, ownerId);
-        return service.searchForItemsByText(text).stream()
+        return service.searchForItemsByText(text, from, size).stream()
                 .map(ItemMapper::mapItemToResponse)
                 .collect(Collectors.toList());
     }
@@ -97,7 +108,7 @@ public class ItemController {
     @PostMapping("/{id}/comment")
     public CommentDto addComment(@RequestBody @Validated(Create.class) CommentDto commentDto,
                               @PathVariable("id") long itemId,
-                              @RequestHeader("X-Sharer-User-Id") long commentatorId) {
+                              @RequestHeader(HEADER) long commentatorId) {
         Comment comment = CommentMapper.mapToComment(commentDto, itemId, commentatorId);
         log.info("Received POST CommentDto {} from {}", commentDto, commentatorId);
         return CommentMapper.mapCommentToResponse(service.addComment(comment));

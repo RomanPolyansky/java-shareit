@@ -1,6 +1,7 @@
 DROP TABLE IF EXISTS comments;
 DROP TABLE IF EXISTS bookings;
 DROP TABLE IF EXISTS items;
+DROP TABLE IF EXISTS item_requests;
 DROP TABLE IF EXISTS users;
 
 
@@ -12,6 +13,16 @@ CREATE TABLE IF NOT EXISTS `users`
     PRIMARY KEY (`id`)
 );
 
+CREATE TABLE IF NOT EXISTS `item_requests`
+(
+    `id`           INT          NOT NULL AUTO_INCREMENT,
+    `description`  varchar(255) NOT NULL,
+    `requester_id` INT          NOT NULL,
+    `created`      TIMESTAMP    NOT NULL,
+    PRIMARY KEY (`id`),
+    FOREIGN KEY  (`requester_id`) REFERENCES `users` (`id`) ON DELETE CASCADE
+);
+
 CREATE TABLE IF NOT EXISTS `items`
 (
     `id`           INT          NOT NULL AUTO_INCREMENT,
@@ -19,10 +30,12 @@ CREATE TABLE IF NOT EXISTS `items`
     `description`  varchar(255) NOT NULL,
     `is_available` BOOLEAN      NOT NULL,
     `owner_id`     INT          NOT NULL,
+    `request_id`  INT,
     PRIMARY KEY (`id`),
     FOREIGN KEY  (`owner_id`) REFERENCES `users` (`id`) ON DELETE CASCADE,
-    CONSTRAINT name_empty CHECK (name NOT LIKE ' ' AND name NOT LIKE ''),
-    CONSTRAINT description_empty CHECK (description NOT LIKE ' ' AND description NOT LIKE '')
+    FOREIGN KEY  (`request_id`) REFERENCES `item_requests` (`id`) ON DELETE SET NULL,
+    CONSTRAINT name_empty CHECK (`name` NOT LIKE ' ' AND `name` NOT LIKE ''),
+    CONSTRAINT items_description_empty CHECK (`description` NOT LIKE ' ' AND `description` NOT LIKE '')
 );
 
 CREATE TABLE IF NOT EXISTS `bookings`
@@ -49,5 +62,3 @@ CREATE TABLE IF NOT EXISTS `comments`
     FOREIGN KEY (`author_id`) REFERENCES `users` (`id`),
     FOREIGN KEY (`item_id`) REFERENCES `items` (`id`)
 );
-
-
