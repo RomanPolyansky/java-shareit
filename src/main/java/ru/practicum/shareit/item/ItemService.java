@@ -36,17 +36,9 @@ public class ItemService {
         return repository.findById(id).orElseThrow(() -> new ElementNotFoundException("Item does not exist"));
     }
 
-    public List<Item> getAll() {
-        return repository.findAll();
-    }
-
     public Item addItem(Item item) {
         userService.getUserById(item.getOwnerId());
         return repository.save(item);
-    }
-
-    public void deleteItem(long id) {
-        repository.deleteById(id);
     }
 
     public Item changeItem(Item item) {
