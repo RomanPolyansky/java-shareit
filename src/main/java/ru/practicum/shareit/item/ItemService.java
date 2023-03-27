@@ -49,7 +49,8 @@ public class ItemService {
 
     public void checkOwnership(Item item) {
         userService.getUserById(item.getOwnerId());
-        if (repository.findById(item.getId()).isPresent() && item.getOwnerId() != repository.getById(item.getId()).getOwnerId()) {
+        if (repository.findById(item.getId()).isPresent()
+                && item.getOwnerId() != repository.getById(item.getId()).getOwnerId()) {
             throw new NoAccessException("Not an owner of an item");
         }
     }

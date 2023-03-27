@@ -25,4 +25,10 @@ public class BookingDtoResponse {
 
     private Item item;
     private User booker;
+
+    public void setItemWithId(long itemId) {
+        Item item = new Item();
+        item.setId(itemId);
+        this.item = item;
+    }
 }
