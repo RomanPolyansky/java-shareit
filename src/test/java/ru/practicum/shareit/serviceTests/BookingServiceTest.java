@@ -3,15 +3,15 @@ package ru.practicum.shareit.serviceTests;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.ArgumentCaptor;
+import org.mockito.Captor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import ru.practicum.shareit.booking.BookingController;
 import ru.practicum.shareit.booking.BookingRepository;
 import ru.practicum.shareit.booking.BookingService;
+import ru.practicum.shareit.booking.Status;
 import ru.practicum.shareit.booking.model.Booking;
-import ru.practicum.shareit.exception.ElementNotFoundException;
-import ru.practicum.shareit.exception.NoAccessException;
 import ru.practicum.shareit.item.ItemService;
 import ru.practicum.shareit.item.model.Item;
 import ru.practicum.shareit.user.UserService;
@@ -19,32 +19,28 @@ import ru.practicum.shareit.user.model.User;
 
 import java.time.LocalDateTime;
 import java.util.Optional;
-import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
-import static org.mockito.Mockito.doReturn;
-import static org.mockito.Mockito.doThrow;
+import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 public class BookingServiceTest {
     @InjectMocks
     private BookingService service;
-
     @Mock
     private BookingRepository repository;
-
     @Mock
     private ItemService itemService;
-
     @Mock
     private UserService userService;
-
     User newUser;
     Item itemWithId;
     Booking booking;
+    @Captor
+    private ArgumentCaptor<Booking> captor;
 
     @BeforeEach
     private void init() {
@@ -87,5 +83,54 @@ public class BookingServiceTest {
         assertThrows(Exception.class, () -> service.addBooking(badBooking));
     }
 
+    @Test
+    void replyBooking_And_ValidationExceptions() {
+        doReturn(itemWithId)
+                .when(itemService).getItemById(anyLong());
 
+        booking.setStatusStr("true");
+        doReturn(booking)
+                .when(repository).getById(anyLong());
+        service.replyBooking(1L, "true", 6);
+        verify(repository).save(captor.capture());
+        Booking bookingBeforeSave = captor.getValue();
+        assertEquals(bookingBeforeSave.getStatus(), Status.APPROVED);
+
+        assertThrows(IllegalArgumentException.class, () -> service.replyBooking(1,"not status",1));
+    }
+
+    @Test
+    void replyBookingReject_And_ValidationExceptions() {
+        doReturn(itemWithId)
+                .when(itemService).getItemById(anyLong());
+
+        booking.setStatusStr("false");
+        doReturn(booking)
+                .when(repository).getById(anyLong());
+        service.replyBooking(1L, "true", 6);
+        verify(repository).save(captor.capture());
+        Booking bookingBeforeSave = captor.getValue();
+        assertEquals(bookingBeforeSave.getStatus(), Status.APPROVED);
+
+        assertThrows(IllegalArgumentException.class, () -> service.replyBooking(1,"not status",1));
+    }
+
+    @Test
+    void getBooking_And_ValidationExceptions() {
+        doReturn(Optional.of(booking))
+                .when(repository).findById(anyLong());
+        doReturn(newUser)
+                .when(userService).getUserById(anyLong());
+        doReturn(itemWithId)
+                .when(itemService).getItemById(anyLong());
+
+        Booking receivedBooking = service.getBookingById(1L,  6);
+        assertEquals(receivedBooking.getId(), booking.getId());
+        assertEquals(receivedBooking.getBooker().getId(), booking.getBooker().getId());
+        assertEquals(receivedBooking.getStartDate(), booking.getStartDate());
+        assertEquals(receivedBooking.getEndDate(), booking.getEndDate());
+        assertEquals(receivedBooking.getItem().getId(), booking.getItem().getId());
+
+        assertThrows(IllegalArgumentException.class, () -> service.replyBooking(1,"not status",1));
+    }
 }
