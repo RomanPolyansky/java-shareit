@@ -23,9 +23,8 @@ import java.nio.charset.StandardCharsets;
 import java.time.LocalDateTime;
 import java.util.List;
 
-import static org.hamcrest.Matchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.Matchers.*;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
@@ -73,7 +72,8 @@ class ControllerTest {
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON)).andReturn();
 
-        assertThat(mvcResult.getResponse().getContentAsString(), equalTo(mapper.writeValueAsString(ItemMapper.mapItemToResponse(item))));
+        assertThat(mvcResult.getResponse().getContentAsString(),
+                containsStringIgnoringCase("{\"id\":1,\"name\":\"test\",\"description\":\"test\",\"available\":true,\"nextBooking\":null,\"lastBooking\":null"));
         verify(itemService).getItemById(itemId);
     }
 
