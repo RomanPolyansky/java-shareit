@@ -1,4 +1,4 @@
-package ru.practicum.shareit.serviceTests;
+package ru.practicum.shareit.BookingTests;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -27,7 +27,7 @@ import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
-public class BookingServiceTest {
+public class ServiceTest {
     @InjectMocks
     private BookingService service;
     @Mock

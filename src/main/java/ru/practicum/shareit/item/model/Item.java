@@ -45,6 +45,14 @@ public class Item {
     @JoinColumn(name = "request_id")
     private ItemRequest itemRequest;
 
+    public Item(long id, String description, String name, Boolean available, long ownerId) {
+        this.id = id;
+        this.ownerId = ownerId;
+        this.name = name;
+        this.description = description;
+        this.available = available;
+    }
+
     public Item() {
     }
 

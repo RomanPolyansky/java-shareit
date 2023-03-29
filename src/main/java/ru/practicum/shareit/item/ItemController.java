@@ -64,7 +64,7 @@ public class ItemController {
         List<CommentDto> commentsDto = comments.stream()
                 .map(CommentMapper::mapCommentToResponse)
                 .collect(Collectors.toList());
-        itemDto.setComments(commentsDto);
+        if (commentsDto.size() > 0 ) itemDto.setComments(commentsDto);
 
         if (item.getOwnerId() == requesterId) {
             BookingShortDto nextBooking = bookingService.getNextBooking(item.getId());
