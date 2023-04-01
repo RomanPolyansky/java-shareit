@@ -1,4 +1,4 @@
-package ru.practicum.shareit.BookingTests;
+package ru.practicum.shareit.Booking;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -9,10 +9,10 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import ru.practicum.shareit.booking.BookingRepository;
-import ru.practicum.shareit.booking.BookingService;
-import ru.practicum.shareit.booking.Status;
+import ru.practicum.shareit.booking.BookingServiceImpl;
+import ru.practicum.shareit.booking.BookingStatus;
 import ru.practicum.shareit.booking.model.Booking;
-import ru.practicum.shareit.item.ItemService;
+import ru.practicum.shareit.item.ItemServiceImpl;
 import ru.practicum.shareit.item.model.Item;
 import ru.practicum.shareit.user.UserService;
 import ru.practicum.shareit.user.model.User;
@@ -27,11 +27,11 @@ import static org.mockito.Mockito.*;
 @ExtendWith(MockitoExtension.class)
 public class ServiceTest {
     @InjectMocks
-    private BookingService service;
+    private BookingServiceImpl service;
     @Mock
     private BookingRepository repository;
     @Mock
-    private ItemService itemService;
+    private ItemServiceImpl itemService;
     @Mock
     private UserService userService;
     User newUser;
@@ -92,7 +92,7 @@ public class ServiceTest {
         service.replyBooking(1L, "true", 6);
         verify(repository).save(captor.capture());
         Booking bookingBeforeSave = captor.getValue();
-        assertEquals(bookingBeforeSave.getStatus(), Status.APPROVED);
+        assertEquals(bookingBeforeSave.getStatus(), BookingStatus.APPROVED);
 
         assertThrows(IllegalArgumentException.class, () -> service.replyBooking(1,"not status",1));
     }
@@ -108,7 +108,7 @@ public class ServiceTest {
         service.replyBooking(1L, "true", 6);
         verify(repository).save(captor.capture());
         Booking bookingBeforeSave = captor.getValue();
-        assertEquals(bookingBeforeSave.getStatus(), Status.APPROVED);
+        assertEquals(bookingBeforeSave.getStatus(), BookingStatus.APPROVED);
 
         assertThrows(IllegalArgumentException.class, () -> service.replyBooking(1,"not status",1));
     }

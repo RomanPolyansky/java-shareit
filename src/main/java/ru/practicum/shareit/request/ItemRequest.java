@@ -1,5 +1,7 @@
 package ru.practicum.shareit.request;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import org.hibernate.annotations.CreationTimestamp;
 import ru.practicum.shareit.item.model.Item;
@@ -18,6 +20,8 @@ import java.util.Objects;
 @Entity
 @Data
 @Table(name = "item_requests")
+@Builder
+@AllArgsConstructor
 public class ItemRequest {
     @Column(name = "id")
     @Id

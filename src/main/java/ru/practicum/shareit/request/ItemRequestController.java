@@ -2,7 +2,8 @@ package ru.practicum.shareit.request;
 
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
-import ru.practicum.shareit.item.ItemService;
+import ru.practicum.shareit.configuration.PagesConfig;
+import ru.practicum.shareit.item.ItemServiceImpl;
 import ru.practicum.shareit.item.dto.ItemMapper;
 import ru.practicum.shareit.item.model.Item;
 import ru.practicum.shareit.request.dto.ItemRequestDto;
@@ -12,7 +13,6 @@ import javax.validation.constraints.Positive;
 import javax.validation.constraints.PositiveOrZero;
 import java.util.Collections;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @RestController
@@ -21,7 +21,7 @@ import java.util.stream.Collectors;
 public class ItemRequestController {
 
     private ItemRequestService itemRequestService;
-    private ItemService itemService;
+    private ItemServiceImpl itemService;
     private static final String HEADER = "X-Sharer-User-Id";
 
     @PostMapping
@@ -38,9 +38,8 @@ public class ItemRequestController {
 
     @GetMapping("/all")
     public List<ItemRequestDto> getAllItemRequests(@RequestHeader(HEADER) long requesterId,
-                                                   @PositiveOrZero @RequestParam(value = "from", required = false)
-                                                   Optional<Integer> from,
-                                                   @Positive @RequestParam(value = "size", required = false) Optional<Integer> size) {
+                                                   @PositiveOrZero @RequestParam(value = "from", defaultValue = "0") int from,
+                                                   @Positive @RequestParam(value = "size", defaultValue = PagesConfig.DEFAULT_SIZE_AS_STRING) int size)  {
 
         List<ItemRequestDto> itemRequestDtoResponse = itemRequestService.getAllItemRequests(requesterId, from, size)
                 .stream()

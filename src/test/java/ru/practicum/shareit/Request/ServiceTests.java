@@ -1,4 +1,4 @@
-package ru.practicum.shareit.RequestTests;
+package ru.practicum.shareit.Request;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -11,7 +11,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import ru.practicum.shareit.booking.model.Booking;
 import ru.practicum.shareit.exception.ElementNotFoundException;
 import ru.practicum.shareit.exception.IlligalRequestException;
-import ru.practicum.shareit.item.ItemService;
+import ru.practicum.shareit.item.ItemServiceImpl;
 import ru.practicum.shareit.item.model.Item;
 import ru.practicum.shareit.request.ItemRequest;
 import ru.practicum.shareit.request.ItemRequestRepository;
@@ -34,7 +34,7 @@ public class ServiceTests {
     @Mock
     private ItemRequestRepository repository;
     @Mock
-    private ItemService itemService;
+    private ItemServiceImpl itemService;
     @Mock
     private UserService userService;
     User newUser;

@@ -1,4 +1,4 @@
-package ru.practicum.shareit.ItemTests;
+package ru.practicum.shareit.Item;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -9,7 +9,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import ru.practicum.shareit.exception.ElementNotFoundException;
 import ru.practicum.shareit.exception.NoAccessException;
 import ru.practicum.shareit.item.ItemRepository;
-import ru.practicum.shareit.item.ItemService;
+import ru.practicum.shareit.item.ItemServiceImpl;
 import ru.practicum.shareit.item.model.Item;
 import ru.practicum.shareit.user.UserServiceImpl;
 import ru.practicum.shareit.user.model.User;
@@ -23,7 +23,7 @@ import static org.mockito.Mockito.*;
 public class ServiceTests {
 
     @InjectMocks
-    ItemService service;
+    ItemServiceImpl service;
 
     @Mock
     ItemRepository repository;

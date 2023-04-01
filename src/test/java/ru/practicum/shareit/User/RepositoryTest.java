@@ -1,4 +1,4 @@
-package ru.practicum.shareit.UserTests;
+package ru.practicum.shareit.User;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,9 +20,9 @@ class RepositoryTest {
 
     @Test
     void getUser() {
-        User userFromRepo = repository.getById(1L);
+        User userFromRepo = repository.getById(100L);
 
-        assertThat(userFromRepo.getId(), equalTo(1L));
+        assertThat(userFromRepo.getId(), equalTo(100L));
         assertThat(userFromRepo.getName(), equalTo("test"));
         assertThat(userFromRepo.getEmail(), equalTo("test@email.ru"));
     }

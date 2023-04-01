@@ -1,4 +1,4 @@
-package ru.practicum.shareit.ItemTests;
+package ru.practicum.shareit.Item;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.SneakyThrows;
@@ -10,9 +10,9 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
-import ru.practicum.shareit.booking.BookingService;
+import ru.practicum.shareit.booking.BookingServiceImpl;
 import ru.practicum.shareit.item.ItemController;
-import ru.practicum.shareit.item.ItemService;
+import ru.practicum.shareit.item.ItemServiceImpl;
 import ru.practicum.shareit.item.dto.ItemDto;
 import ru.practicum.shareit.item.dto.ItemMapper;
 import ru.practicum.shareit.item.model.Comment;
@@ -35,10 +35,10 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 class ControllerTest {
 
     @MockBean
-    private ItemService itemService;
+    private ItemServiceImpl itemService;
 
     @MockBean
-    private BookingService bookingService;
+    private BookingServiceImpl bookingService;
 
     @Autowired
     private MockMvc mvc;
@@ -81,7 +81,7 @@ class ControllerTest {
     @SneakyThrows
     void getItems() {
         List<ItemDto> items = List.of(ItemMapper.mapItemToResponse(item));
-        when(itemService.getItemsByOwnerId(Mockito.anyLong(), Mockito.any(), Mockito.any()))
+        when(itemService.getItemsByOwnerId(Mockito.anyLong(), Mockito.anyInt(), Mockito.anyInt()))
                 .thenReturn(List.of(item));
 
         MvcResult mvcResult = mvc.perform(get("/items")
@@ -97,7 +97,7 @@ class ControllerTest {
     @SneakyThrows
     void getItemsByText() {
         List<ItemDto> items = List.of(ItemMapper.mapItemToResponse(item));
-        when(itemService.searchForItemsByText(Mockito.anyString(), Mockito.any(), Mockito.any()))
+        when(itemService.searchForItemsByText(Mockito.anyString(), Mockito.anyInt(), Mockito.anyInt()))
                 .thenReturn(List.of(item));
 
         MvcResult mvcResult = mvc.perform(get("/items/search")
@@ -105,7 +105,7 @@ class ControllerTest {
                         .param("text", "es")).andReturn();
 
         assertThat(mvcResult.getResponse().getContentAsString(), equalTo(mapper.writeValueAsString(items)));
-        verify(itemService).searchForItemsByText(Mockito.anyString(), Mockito.any(),Mockito.any());
+        verify(itemService).searchForItemsByText(Mockito.anyString(), Mockito.anyInt(), Mockito.anyInt());
     }
 
     @Test
