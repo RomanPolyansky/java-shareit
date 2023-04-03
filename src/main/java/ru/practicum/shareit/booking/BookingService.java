@@ -1,5 +1,6 @@
 package ru.practicum.shareit.booking;
 
+import ru.practicum.shareit.booking.dto.BookingShortDto;
 import ru.practicum.shareit.booking.model.Booking;
 
 import javax.validation.constraints.Positive;
@@ -18,4 +19,8 @@ public interface BookingService {
 
     List<Booking> getAllBookingsOfOwnerItems(long ownerId, String state,
                                              @PositiveOrZero int from, @Positive int size);
+
+    BookingShortDto getNextBooking(long id);
+
+    BookingShortDto getLastBooking(long id);
 }

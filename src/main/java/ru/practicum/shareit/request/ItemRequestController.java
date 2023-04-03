@@ -3,7 +3,7 @@ package ru.practicum.shareit.request;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 import ru.practicum.shareit.configuration.PagesConfig;
-import ru.practicum.shareit.item.ItemServiceImpl;
+import ru.practicum.shareit.item.ItemService;
 import ru.practicum.shareit.item.dto.ItemMapper;
 import ru.practicum.shareit.item.model.Item;
 import ru.practicum.shareit.request.dto.ItemRequestDto;
@@ -21,7 +21,7 @@ import java.util.stream.Collectors;
 public class ItemRequestController {
 
     private ItemRequestService itemRequestService;
-    private ItemServiceImpl itemService;
+    private ItemService itemService;
     private static final String HEADER = "X-Sharer-User-Id";
 
     @PostMapping

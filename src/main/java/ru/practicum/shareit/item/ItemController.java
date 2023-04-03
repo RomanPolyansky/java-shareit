@@ -4,7 +4,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-import ru.practicum.shareit.booking.BookingServiceImpl;
+import ru.practicum.shareit.booking.BookingService;
 import ru.practicum.shareit.booking.dto.BookingShortDto;
 import ru.practicum.shareit.configuration.PagesConfig;
 import ru.practicum.shareit.item.dto.*;
@@ -27,7 +27,7 @@ public class ItemController {
 
     private final ItemService itemService;
 
-    private final BookingServiceImpl bookingService;
+    private final BookingService bookingService;
 
     private final String HEADER = "X-Sharer-User-Id";
 

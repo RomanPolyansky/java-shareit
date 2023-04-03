@@ -7,7 +7,7 @@ import org.springframework.data.querydsl.QSort;
 import org.springframework.stereotype.Service;
 import ru.practicum.shareit.exception.ElementNotFoundException;
 import ru.practicum.shareit.exception.IlligalRequestException;
-import ru.practicum.shareit.item.ItemServiceImpl;
+import ru.practicum.shareit.item.ItemService;
 import ru.practicum.shareit.user.UserService;
 import ru.practicum.shareit.user.model.User;
 
@@ -21,7 +21,7 @@ import java.util.stream.Collectors;
 public class ItemRequestService {
     private ItemRequestRepository repository;
     private UserService userService;
-    private ItemServiceImpl itemService;
+    private ItemService itemService;
     private final JPAQueryFactory jpaQueryFactory;
 
     public ItemRequest getItemRequestById(long requestId, long requesterId) {

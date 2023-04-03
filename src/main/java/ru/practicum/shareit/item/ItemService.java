@@ -19,4 +19,6 @@ public interface ItemService {
     List<Item> searchForItemsByText(String text, int from, int size);
 
     List<Comment> fetchComments(long itemId);
+
+    List<Item> getItemsByRequestId(long requestId);
 }
