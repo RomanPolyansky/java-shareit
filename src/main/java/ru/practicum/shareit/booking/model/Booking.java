@@ -3,7 +3,7 @@ package ru.practicum.shareit.booking.model;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
-import ru.practicum.shareit.booking.Status;
+import ru.practicum.shareit.booking.BookingStatus;
 import ru.practicum.shareit.item.model.Item;
 import ru.practicum.shareit.user.model.User;
 
@@ -40,26 +40,18 @@ public class Booking {
     private User booker;
 
     @Transient
-    private Status status;
+    private BookingStatus status;
 
     @Column(name = "status")
     private String statusStr;
 
     public Booking() {
         super();
-        status = Status.WAITING;
-        statusStr = Status.WAITING.toString();
+        status = BookingStatus.WAITING;
+        statusStr = BookingStatus.WAITING.toString();
     }
-
-    public Booking merge(Booking other) {
-        if (other.startDate != null) startDate = other.startDate;
-        if (other.endDate != null) endDate = other.endDate;
-        if (other.status != null) status = other.status;
-        return this;
-    }
-
     @PostLoad
     public void recalculateStatus() {
-        status = Status.valueOf(statusStr);
+        status = BookingStatus.valueOf(statusStr);
     }
 }

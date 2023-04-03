@@ -14,30 +14,35 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class UserServiceImpl implements UserService {
 
-    private final UserRepository repository;
+    private final UserRepository userRepository;
 
+    @Override
     public User getUserById(long id) {
-        Optional<User> optionalUser = repository.findById(id);
+        Optional<User> optionalUser = userRepository.findById(id);
         return optionalUser.orElseThrow(
                 () -> new ElementNotFoundException("user is not found")
         );
     }
 
+    @Override
     public List<User> getAll() {
-        return repository.findAll();
+        return userRepository.findAll();
     }
 
+    @Override
     public User addUser(User user) {
-        return repository.save(user);
+        return userRepository.save(user);
     }
 
+    @Override
     public User changeUser(User user) {
         log.info(user.toString());
-        User mergedUser = repository.getById(user.getId()).merge(user);
-        return repository.save(mergedUser);
+        User mergedUser = userRepository.getById(user.getId()).merge(user);
+        return userRepository.save(mergedUser);
     }
 
+    @Override
     public void deleteUser(long id) {
-        repository.deleteById(id);
+        userRepository.deleteById(id);
     }
 }
