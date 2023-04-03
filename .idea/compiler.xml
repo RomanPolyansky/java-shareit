@@ -8,14 +8,21 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="shareit" />
-        <module name="java-shareit" />
+        <module name="shareit-gateway" />
+        <module name="shareit-server" />
       </profile>
     </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="shareit (1)" target="11" />
+      <module name="shareit (2)" target="11" />
+    </bytecodeTargetLevel>
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
-      <module name="java-shareit" options="-parameters" />
+      <module name="java-shareit" options="" />
       <module name="shareit" options="-parameters" />
+      <module name="shareit-gateway" options="-parameters" />
+      <module name="shareit-server" options="-parameters" />
     </option>
   </component>
 </project>
