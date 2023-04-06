@@ -3,10 +3,7 @@ package ru.practicum.shareit.user;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
-import ru.practicum.shareit.user.model.AddUserRequest;
-import ru.practicum.shareit.user.model.User;
-import ru.practicum.shareit.user.model.UserMapper;
-import ru.practicum.shareit.user.model.UserResponse;
+import ru.practicum.shareit.user.model.*;
 
 import javax.validation.Valid;
 import java.util.List;

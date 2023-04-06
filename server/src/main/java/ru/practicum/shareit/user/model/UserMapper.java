@@ -1,7 +1,5 @@
 package ru.practicum.shareit.user.model;
 
-import ru.practicum.shareit.user.UpdateUserRequest;
-
 public class UserMapper {
 
     public static User mapToUser(UpdateUserRequest dto) {

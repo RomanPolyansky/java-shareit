@@ -17,6 +17,7 @@ import ru.practicum.shareit.booking.BookingStatus;
 import ru.practicum.shareit.booking.dto.BookingDtoResponse;
 import ru.practicum.shareit.booking.dto.BookingMapper;
 import ru.practicum.shareit.booking.model.Booking;
+import ru.practicum.shareit.configuration.PagesConfig;
 import ru.practicum.shareit.item.model.Item;
 import ru.practicum.shareit.user.model.User;
 
@@ -116,7 +117,8 @@ class ControllerTest {
     @Test
     @SneakyThrows
     void getAllBookingsOfUserItems() {
-        when(service.getAllBookingsOfOwnerItems(user.getId(), BookingState.ALL.name(), 0, 100))
+        when(service.getAllBookingsOfOwnerItems(user.getId(), BookingState.ALL.name(),
+                                0, Integer.parseInt(PagesConfig.DEFAULT_SIZE_AS_STRING)))
                 .thenReturn(List.of(booking));
 
         MvcResult mvcResult = mvc.perform(get("/bookings/owner")
@@ -127,14 +129,16 @@ class ControllerTest {
 
         assertThat(mvcResult.getResponse().getContentAsString(),
                 equalTo(mapper.writeValueAsString(List.of(bookingDtoResponse))));
-        verify(service).getAllBookingsOfOwnerItems(user.getId(), BookingState.ALL.name(), 0, 100);
+        verify(service).getAllBookingsOfOwnerItems(user.getId(), BookingState.ALL.name(),
+                                0, Integer.parseInt(PagesConfig.DEFAULT_SIZE_AS_STRING));
     }
 
     @Test
     @SneakyThrows
     void getAllBookingsOfUser() {
 
-        when(service.getAllBookingsOfUser(user.getId(), BookingState.ALL.name(), 0, 100))
+        when(service.getAllBookingsOfUser(user.getId(), BookingState.ALL.name(),
+                                0, Integer.parseInt(PagesConfig.DEFAULT_SIZE_AS_STRING)))
                 .thenReturn(List.of(booking));
 
         MvcResult mvcResult = mvc.perform(get("/bookings")
@@ -145,7 +149,8 @@ class ControllerTest {
 
         assertThat(mvcResult.getResponse().getContentAsString(),
                 equalTo(mapper.writeValueAsString(List.of(bookingDtoResponse))));
-        verify(service).getAllBookingsOfUser(user.getId(), BookingState.ALL.name(), 0, 100);
+        verify(service).getAllBookingsOfUser(user.getId(), BookingState.ALL.name(),
+                                 0, Integer.parseInt(PagesConfig.DEFAULT_SIZE_AS_STRING));
 
     }
 }
